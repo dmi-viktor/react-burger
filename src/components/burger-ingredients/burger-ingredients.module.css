@@ -1,0 +1,12 @@
+.ingredientList {
+    height: 100%;
+    width: 50%;
+}
+
+.categoryList {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 56px);
+    overflow-y: auto;
+    text-align: "left"
+}

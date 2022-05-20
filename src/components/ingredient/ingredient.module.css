@@ -1,0 +1,10 @@
+.productBox {
+    position: relative;
+    width: min-content;
+    text-align: center;
+}
+
+.priceBox {
+    display: flex;
+    justify-content: center;
+}

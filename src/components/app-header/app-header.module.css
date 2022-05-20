@@ -1,0 +1,28 @@
+.header {
+    background-color: #1C1C21;
+}
+
+.headerBox {
+    max-width: 1320px;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.navigation {
+    display: flex;
+    flex-grow: 2;
+}
+
+.logo {
+    position: absolute;
+    left: calc(50% - 150px);
+}
+
+@media (max-width:630px) {
+    .logo {
+        display: none;
+    }
+}
