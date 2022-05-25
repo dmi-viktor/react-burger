@@ -2,13 +2,13 @@ import React from 'react';
 import style from './burger-ingredients.module.css';
 import Category from '../category/category';
 import Tabs from '../tabs/tabs';
-import Data from '../../utils/data'
+import PropTypes from 'prop-types';
 
-
+import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
 import { render } from 'react-dom';
 
-export default function IngredientList() {
-    const [state, setState] = React.useState({ data: Data });
+export default function IngredientList({ data }) {
+    const [state, setState] = React.useState({ data: data });
 
     return (
         <div className={style.ingredientList}>
@@ -25,3 +25,7 @@ export default function IngredientList() {
         </div>
     );
 }
+
+IngredientList.propTypes = {
+    data: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
+};

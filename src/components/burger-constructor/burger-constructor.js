@@ -1,8 +1,13 @@
 import React from 'react';
 import style from './burger-constructor.module.css';
 import ConstructorElementBox from '../constructor-element/constructor-element';
-import Data from '../../utils/data';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import PropTypes from 'prop-types';
+
+import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
+
+/// Здесь исключительно тестовые данные и дальнейшая структора пока непонятна. Поэтому позволил себе хард код.
 
 const totalSum = (data) => {
     let summ = 0;
@@ -14,18 +19,27 @@ const totalSum = (data) => {
     return summ;
 };
 
-export default function BurgerConstructor() {
-    const [state, setState] = React.useState({ data: Data });
+export default function BurgerConstructor({ data }) {
+    const [state, setState] = React.useState({ data: data });
 
     return (
-        <div className={style.burgerConstructorBox}>
-            <div className={`custom-scroll ${style.ingredientList}`}>
+        <div className={style.burgerConstructorBox}>            
+            <ConstructorElementBox
+                type="top"
+                isLocked={true}
+                text="Краторная булка N-200i"
+                price={1255}
+                imgUrl="https://code.s3.yandex.net/react/code/bun-02.png"
+            />
+            <div className={`custom-scroll mb-4 ${style.ingredientList}`}>
                 {
-                    state.data.map((item, index) => {
-                        const type = index == 0 ? "top" : index == state.data.length - 1 ? "bottom" : "middle";
+                    state.data
+                        .filter(item => item.type !== 'bun')
+                        .map((item, index) => {
+
                         return <ConstructorElementBox
-                            key={item._id}
-                            type={type}
+                            key={index}
+                            type="middle"
                             isLocked={false}
                             text={item.name}
                             price={item.price}
@@ -34,6 +48,13 @@ export default function BurgerConstructor() {
                     })
                 }
             </div>
+            <ConstructorElementBox
+                type="bottom"
+                isLocked={true}
+                text="Краторная булка N-200i"
+                price={1255}
+                imgUrl="https://code.s3.yandex.net/react/code/bun-02.png"
+            />
             <div className={`pt-10 ${style.runningTitle}`}>
                 <span className="text text_type_digits-medium">{totalSum(state.data)}</span>
 
@@ -47,4 +68,8 @@ export default function BurgerConstructor() {
             </div>
         </div>
     );
+};
+
+BurgerConstructor.propTypes = {
+    data: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
 };

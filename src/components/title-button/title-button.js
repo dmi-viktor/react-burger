@@ -1,5 +1,6 @@
 import React from 'react';
 import titleButtonStyle from './title-button.module.css';
+import PropTypes from 'prop-types';
 
 /* т.к. в задании не говорилось про использование кнопок для шапки из библиотеки,
    описал стили кнопок по своему вразумению 
@@ -13,3 +14,8 @@ export default function TitleButton(props) {
         </a>
     );
 }
+
+TitleButton.propTypes = {
+    content: PropTypes.string.isRequired,
+    children: PropTypes.element.isRequired
+};

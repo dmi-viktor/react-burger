@@ -6,7 +6,7 @@
 .ingredientList {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 95px);
+    height: calc(100% - 300px);
     overflow-y: auto;
     text-align: left;
 }

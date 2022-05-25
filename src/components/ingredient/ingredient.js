@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './ingredient.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
 
 export default function Ingredient({ data }) {
     return (
@@ -17,3 +18,7 @@ export default function Ingredient({ data }) {
         </div>
     );
 }
+
+Ingredient.propTypes = {
+    data: catalogIngredientType.isRequired
+};

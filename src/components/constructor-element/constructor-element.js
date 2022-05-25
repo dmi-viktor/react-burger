@@ -10,10 +10,9 @@ export default function ConstructorElementBox({ type, isLocked, text, price, img
                 <DragIcon type="primary" />
             </div>
             <ConstructorElement
-                style={{ opacity: 0 }}
                 type={type}
                 isLocked={isLocked}
-                text={text}
+                text={`${text} ${type === "top" ? "(верх)" : type === "bottom" ? "(низ)" : ""}`}
                 price={price}
                 thumbnail={imgUrl}
             />
@@ -25,7 +24,7 @@ ConstructorElementBox.propTypes = {
     type: PropTypes.string.isRequired,
     isLocked: PropTypes.bool.isRequired,
     text: PropTypes.string,
-    price: PropTypes.number,
+    price: PropTypes.number.isRequired,
     imgUrl: PropTypes.string,
 };
 
