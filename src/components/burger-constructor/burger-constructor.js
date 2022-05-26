@@ -6,67 +6,122 @@ import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-co
 import PropTypes from 'prop-types';
 
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
+import Modal from '../modal/modal';
+import modalImg from '../../images/modal-order.png';
 
-/// Здесь исключительно тестовые данные и дальнейшая структора пока непонятна. Поэтому позволил себе хард код.
-
-const totalSum = (data) => {
+// Сумма заказа
+const totalSum = (constructor) => {
     let summ = 0;
 
-    data.map((item, index) => {
-        summ += item.price;
-    });
+    if (constructor.bun) {
+        summ += constructor.bun.price;
+    }
+
+    if (constructor.filling && constructor.filling.length) {
+        constructor.filling.map((item, index) => {
+            summ += item.price;
+        });
+    }
 
     return summ;
 };
 
 export default function BurgerConstructor({ data }) {
-    const [state, setState] = React.useState({ data: data });
+    const [state, setState] = React.useState(
+        {
+            constructor: {
+                bun: null,
+                filling: []
+            },
+            isVisibleModal: false
+        });
+
+    // Заполняем конструктор тестовыми данными
+    React.useEffect(() => {
+        let tempBun = data.find(item => item.type === 'bun'); // Могут ли быть булки разными? И цена за половинку или за обе? Непонятно...
+        let tempFilling = data.filter(item => item.type !== 'bun');
+
+        setState({ ...state, constructor: { bun: tempBun, filling: tempFilling } });
+    }, [])
+
+    function handleOpenModal() {
+        setState({ ...state, isVisibleModal: true });
+    }
+
+    const handleCloseModal = () => {
+        setState({ ...state, isVisibleModal: false });
+    }
+
+    const modal = (
+        <Modal onClose={handleCloseModal}>
+            <div className={style.MainModal}>
+                <span className={`text text_type_digits-large pt-20 pb-8 ${style.ModalIdOrder}`}>034536</span>
+                <div className={`text text_type_main-medium pb-15 ${style.ModalIdHint}`}>Идентификатор заказа</div>
+                <div className={`pb-15 ${style.ModalImg}`}><img src={modalImg} /></div>
+                <div className={`text text_type_main-default pb-2  ${style.ModalStatus}`}>Ваш заказ начали готовить</div>
+                <div className={`text text_type_main-default text_color_inactive pb-20 ${style.ModalMessage}`}>Дождитесь готовности на орбитальной станции</div>
+            </div>
+        </Modal>
+    );
 
     return (
-        <div className={style.burgerConstructorBox}>            
-            <ConstructorElementBox
-                type="top"
-                isLocked={true}
-                text="Краторная булка N-200i"
-                price={1255}
-                imgUrl="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-            <div className={`custom-scroll mb-4 ${style.ingredientList}`}>
-                {
-                    state.data
-                        .filter(item => item.type !== 'bun')
-                        .map((item, index) => {
+        <>
+            <div className={style.burgerConstructorBox}>
 
-                        return <ConstructorElementBox
-                            key={index}
-                            type="middle"
-                            isLocked={false}
-                            text={item.name}
-                            price={item.price}
-                            imgUrl={item.image}
-                        />
-                    })
+                {// Верхняя булочка
+                    state.constructor.bun &&
+                    <ConstructorElementBox
+                        type="top"
+                        isLocked={true}
+                        text={state.constructor.bun.name}
+                        price={state.constructor.bun.price}
+                        imgUrl={state.constructor.bun.image}
+                    />
                 }
-            </div>
-            <ConstructorElementBox
-                type="bottom"
-                isLocked={true}
-                text="Краторная булка N-200i"
-                price={1255}
-                imgUrl="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-            <div className={`pt-10 ${style.runningTitle}`}>
-                <span className="text text_type_digits-medium">{totalSum(state.data)}</span>
 
-                <div className="pr-2 pl-2">
-                    <CurrencyIcon type="primary" />
+                <div className={`custom-scroll mb-4 ${style.ingredientList}`}>
+                    {// Начинка
+                        state.constructor.filling && state.constructor.filling
+                            .map((item, index) => {
+
+                            return <ConstructorElementBox
+                                key={index}
+                                type="middle"
+                                isLocked={false}
+                                text={item.name}
+                                price={item.price}
+                                imgUrl={item.image}
+                            />
+                        })
+                    }
                 </div>
 
-                <Button type="primary" size="medium">
-                    Оформить заказ
-                    </Button>
+                {// Нижняя булочка
+                    state.constructor.bun &&
+                    <ConstructorElementBox
+                        type="bottom"
+                        isLocked={true}
+                        text={state.constructor.bun.name}
+                        price={state.constructor.bun.price}
+                        imgUrl={state.constructor.bun.image}
+                    />
+                }
+
+                <div className={`pt-10 ${style.runningTitle}`}>
+                    <span className="text text_type_digits-medium">{totalSum(state.constructor)}</span>
+
+                    <div className="pr-2 pl-2">
+                        <CurrencyIcon type="primary" />
+                    </div>
+
+                    <Button type="primary" size="medium" onClick={handleOpenModal}>
+                        Оформить заказ
+                        </Button>
+                </div>
             </div>
-        </div>
+
+            { state.isVisibleModal && modal}
+        </>
     );
 };
 
