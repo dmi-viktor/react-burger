@@ -29,8 +29,8 @@ export default function Modal({ children, onClose }) {
     return ReactDOM.createPortal(
         <>
             <ModalOverlay onClose={onClose} />
-            <div className={`${style.Modal} p-10`}>
-                <button className={style.CloseBtn} onClick={onClose}>
+            <div className={`${style.modal} p-10`}>
+                <button className={style.closeBtn} onClick={onClose}>
                     <CloseIcon type="primary" />
                 </button>
                 {children}

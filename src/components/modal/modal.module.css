@@ -1,4 +1,4 @@
-.Modal {
+.modal {
     position: fixed;
     width: 520px;
     transform: translate(-50%, -50%);
@@ -9,7 +9,7 @@
     overflow: hidden;
 }
 
-.CloseBtn {
+.closeBtn {
     position: absolute;
     right: 40px;
     background-color: transparent;
