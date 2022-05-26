@@ -1,0 +1,19 @@
+.burgerConstructorBox {
+    width: 50%;
+    height: 100%;
+}
+
+.ingredientList {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 300px);
+    overflow-y: auto;
+    text-align: left;
+}
+
+.runningTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+}

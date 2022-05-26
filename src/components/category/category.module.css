@@ -1,0 +1,11 @@
+.categoryBox {
+    display: flex;
+    flex-direction: column;
+    text-align: left
+}
+
+.ingredientList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap
+}
