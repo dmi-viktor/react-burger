@@ -11,6 +11,21 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 const modalRoot = document.getElementById("react-modals");
 
 export default function Modal({ children, onClose }) {
+    const keystrokeEscape = (event) => {
+        if (event.key === "Escape") {
+            onClose();
+        }
+    }
+
+    React.useEffect(() => {
+        document.addEventListener("keydown", keystrokeEscape, false);
+
+        return () => {
+            document.removeEventListener("keydown", keystrokeEscape, false);
+        };
+    }, []
+    )
+
     return ReactDOM.createPortal(
         <>
             <ModalOverlay onClose={onClose} />

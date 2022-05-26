@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
 import { render } from 'react-dom';
 
-export default function IngredientList({ data }) {
+export default function BurgerIngredients({ data }) {
     const [state, setState] = React.useState({ data: data });
 
     return (
@@ -26,6 +26,6 @@ export default function IngredientList({ data }) {
     );
 }
 
-IngredientList.propTypes = {
+BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
 };
