@@ -6,8 +6,8 @@ import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-co
 import PropTypes from 'prop-types';
 
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
-import Modal from '../modal/modal';
-import modalImg from '../../images/modal-order.png';
+import OrderDetails from '../order-details/order-details';
+
 
 // Сумма заказа
 const totalSum = (constructor) => {
@@ -44,25 +44,13 @@ export default function BurgerConstructor({ data }) {
         setState({ ...state, constructor: { bun: tempBun, filling: tempFilling } });
     }, [])
 
-    function handleOpenModal() {
+    const handleOpenModal = () => {
         setState({ ...state, isVisibleModal: true });
     }
 
     const handleCloseModal = () => {
         setState({ ...state, isVisibleModal: false });
     }
-
-    const modal = (
-        <Modal onClose={handleCloseModal}>
-            <div className={style.MainModal}>
-                <span className={`text text_type_digits-large pt-20 pb-8 ${style.ModalIdOrder}`}>034536</span>
-                <div className={`text text_type_main-medium pb-15 ${style.ModalIdHint}`}>Идентификатор заказа</div>
-                <div className={`pb-15 ${style.ModalImg}`}><img src={modalImg} /></div>
-                <div className={`text text_type_main-default pb-2  ${style.ModalStatus}`}>Ваш заказ начали готовить</div>
-                <div className={`text text_type_main-default text_color_inactive pb-20 ${style.ModalMessage}`}>Дождитесь готовности на орбитальной станции</div>
-            </div>
-        </Modal>
-    );
 
     return (
         <>
@@ -120,7 +108,7 @@ export default function BurgerConstructor({ data }) {
                 </div>
             </div>
 
-            { state.isVisibleModal && modal}
+            { state.isVisibleModal && <OrderDetails onClose={handleCloseModal} />}
         </>
     );
 };

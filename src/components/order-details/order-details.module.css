@@ -1,0 +1,25 @@
+.MainModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ModalIdOrder {
+
+}
+
+.ModalIdHint {
+    text-transform: lowercase;
+}
+
+.ModalImg {
+
+}
+
+.ModalStatus {
+
+}
+
+.ModalMessage {
+
+}

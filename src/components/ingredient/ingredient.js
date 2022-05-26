@@ -2,52 +2,18 @@ import React from 'react';
 import style from './ingredient.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
-import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 export default function Ingredient({ data }) {
     const [isVisibleModal, setVisibleModal] = React.useState( false );
 
-    function handleOpenModal() {
+    const handleOpenModal = () => {
         setVisibleModal(true);
     }
 
     const handleCloseModal = () => {
         setVisibleModal(false);
     }
-
-    const modal = (
-        <Modal onClose={handleCloseModal}>
-            <div className={style.MainModal}>
-                <div className={style.ModalTitle}>
-                    <span className="text text_type_main-large"> Детали ингредиента </span>
-                </div>
-                <div className={style.ModalContent}>
-                    <img src={data.image_large} className="pb-4" />
-                    <span className="text text_type_main-medium pb-8">
-                        {data.name}
-                    </span>
-                    <div className={`${style.EnergyValueList} pb-5`}>
-                        <div className={`${style.EnergyValue} pr-5`}>
-                            <span className="text text_type_main-default text_color_inactive">Калории,ккал</span>
-                            <span className="text text_type_main-default text_color_inactive">{ data.calories }</span>
-                        </div>
-                        <div className={`${style.EnergyValue} pr-5`}>
-                            <span className="text text_type_main-default text_color_inactive">Белки,г</span>
-                            <span className="text text_type_main-default text_color_inactive">{ data.proteins }</span>
-                        </div>
-                        <div className={`${style.EnergyValue} pr-5`}>
-                            <span className="text text_type_main-default text_color_inactive">Жиры,г</span>
-                            <span className="text text_type_main-default text_color_inactive">{ data.fat }</span>
-                        </div>
-                        <div className={style.EnergyValue}>
-                            <span className="text text_type_main-default text_color_inactive">Углеводы,г</span>
-                            <span className="text text_type_main-default text_color_inactive">{ data.carbohydrates }</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </Modal>
-    );
 
     return (
         <>
@@ -62,7 +28,7 @@ export default function Ingredient({ data }) {
                 </span>
                 <Counter count={1} size="default" />
             </button>
-            { isVisibleModal && modal}
+            { isVisibleModal && <IngredientDetails data={data} onClose={handleCloseModal} />}
         </>
     );
 }

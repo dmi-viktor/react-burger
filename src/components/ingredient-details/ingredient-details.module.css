@@ -1,0 +1,29 @@
+.MainModal {
+    display: flex;
+    flex-direction: column;
+}
+
+.ModalTitle {
+    width: 100%;
+    text-align: left;
+}
+
+.ModalContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.EnergyValueList {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.EnergyValue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
