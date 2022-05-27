@@ -32,7 +32,7 @@ export default function Ingredient({ ingredientData }) {
             {
                 isVisibleModal &&
                 <Modal onClose={handleCloseModal}>
-                    <IngredientDetails data={ingredientData} />
+                    <IngredientDetails details={ingredientData} />
                 </Modal>
             }
         </>
