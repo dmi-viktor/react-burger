@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
 import OrderDetails from '../order-details/order-details';
-
+import Modal from '../modal/modal';
 
 // Сумма заказа
 const totalSum = (constructor) => {
@@ -26,7 +26,7 @@ const totalSum = (constructor) => {
     return summ;
 };
 
-export default function BurgerConstructor({ data }) {
+export default function BurgerConstructor({ ingredients }) {
     const [state, setState] = React.useState(
         {
             constructor: {
@@ -38,8 +38,8 @@ export default function BurgerConstructor({ data }) {
 
     // Заполняем конструктор тестовыми данными
     React.useEffect(() => {
-        let tempBun = data.find(item => item.type === 'bun'); // Могут ли быть булки разными? И цена за половинку или за обе? Непонятно...
-        let tempFilling = data.filter(item => item.type !== 'bun');
+        let tempBun = ingredients.find(item => item.type === 'bun'); // Могут ли быть булки разными? И цена за половинку или за обе? Непонятно...
+        let tempFilling = ingredients.filter(item => item.type !== 'bun');
 
         setState({ ...state, constructor: { bun: tempBun, filling: tempFilling } });
     }, [])
@@ -108,11 +108,16 @@ export default function BurgerConstructor({ data }) {
                 </div>
             </div>
 
-            { state.isVisibleModal && <OrderDetails onClose={handleCloseModal} />}
+            {
+                state.isVisibleModal &&
+                <Modal onClose={handleCloseModal}>
+                    <OrderDetails />
+                </Modal>
+            }
         </>
     );
 };
 
 BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
+    ingredients: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
 };
