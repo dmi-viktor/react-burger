@@ -2,8 +2,6 @@ import React from 'react';
 import Style from './tabs.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { render } from 'react-dom';
-
 export default function Tabs() {
     const [current, setCurrent] = React.useState('bun');
 

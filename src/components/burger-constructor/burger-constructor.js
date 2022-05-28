@@ -6,70 +6,118 @@ import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-co
 import PropTypes from 'prop-types';
 
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
+import OrderDetails from '../order-details/order-details';
+import Modal from '../modal/modal';
 
-/// Здесь исключительно тестовые данные и дальнейшая структора пока непонятна. Поэтому позволил себе хард код.
-
-const totalSum = (data) => {
+// Сумма заказа
+const totalSum = (constructor) => {
     let summ = 0;
 
-    data.map((item, index) => {
-        summ += item.price;
-    });
+    if (constructor.bun) {
+        summ += constructor.bun.price;
+    }
+
+    if (constructor.filling && constructor.filling.length) {
+        constructor.filling.map((item, index) => {
+            summ += item.price;
+        });
+    }
 
     return summ;
 };
 
-export default function BurgerConstructor({ data }) {
-    const [state, setState] = React.useState({ data: data });
+export default function BurgerConstructor({ ingredients }) {
+    const [state, setState] = React.useState(
+        {
+            constructor: {
+                bun: null,
+                filling: []
+            },
+            isVisibleModal: false
+        });
+
+    // Заполняем конструктор тестовыми данными
+    React.useEffect(() => {
+        let tempBun = ingredients.find(item => item.type === 'bun'); // Могут ли быть булки разными? И цена за половинку или за обе? Непонятно...
+        let tempFilling = ingredients.filter(item => item.type !== 'bun');
+
+        setState({ ...state, constructor: { bun: tempBun, filling: tempFilling } });
+    }, [])
+
+    const handleOpenModal = () => {
+        setState({ ...state, isVisibleModal: true });
+    }
+
+    const handleCloseModal = () => {
+        setState({ ...state, isVisibleModal: false });
+    }
 
     return (
-        <div className={style.burgerConstructorBox}>            
-            <ConstructorElementBox
-                type="top"
-                isLocked={true}
-                text="Краторная булка N-200i"
-                price={1255}
-                imgUrl="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-            <div className={`custom-scroll mb-4 ${style.ingredientList}`}>
-                {
-                    state.data
-                        .filter(item => item.type !== 'bun')
-                        .map((item, index) => {
+        <>
+            <div className={style.burgerConstructorBox}>
 
-                        return <ConstructorElementBox
-                            key={index}
-                            type="middle"
-                            isLocked={false}
-                            text={item.name}
-                            price={item.price}
-                            imgUrl={item.image}
-                        />
-                    })
+                {// Верхняя булочка
+                    state.constructor.bun &&
+                    <ConstructorElementBox
+                        type="top"
+                        isLocked={true}
+                        text={state.constructor.bun.name}
+                        price={state.constructor.bun.price}
+                        imgUrl={state.constructor.bun.image}
+                    />
                 }
-            </div>
-            <ConstructorElementBox
-                type="bottom"
-                isLocked={true}
-                text="Краторная булка N-200i"
-                price={1255}
-                imgUrl="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-            <div className={`pt-10 ${style.runningTitle}`}>
-                <span className="text text_type_digits-medium">{totalSum(state.data)}</span>
 
-                <div className="pr-2 pl-2">
-                    <CurrencyIcon type="primary" />
+                <div className={`custom-scroll mb-4 ${style.ingredientList}`}>
+                    {// Начинка
+                        state.constructor.filling && state.constructor.filling
+                            .map((item, index) => {
+
+                            return <ConstructorElementBox
+                                key={index}
+                                type="middle"
+                                isLocked={false}
+                                text={item.name}
+                                price={item.price}
+                                imgUrl={item.image}
+                            />
+                        })
+                    }
                 </div>
 
-                <Button type="primary" size="medium">
-                    Оформить заказ
-                    </Button>
+                {// Нижняя булочка
+                    state.constructor.bun &&
+                    <ConstructorElementBox
+                        type="bottom"
+                        isLocked={true}
+                        text={state.constructor.bun.name}
+                        price={state.constructor.bun.price}
+                        imgUrl={state.constructor.bun.image}
+                    />
+                }
+
+                <div className={`pt-10 ${style.runningTitle}`}>
+                    <span className="text text_type_digits-medium">{totalSum(state.constructor)}</span>
+
+                    <div className="pr-2 pl-2">
+                        <CurrencyIcon type="primary" />
+                    </div>
+
+                    <Button type="primary" size="medium" onClick={handleOpenModal}>
+                        Оформить заказ
+                        </Button>
+                </div>
             </div>
-        </div>
+
+            {
+                state.isVisibleModal &&
+                <Modal onClose={handleCloseModal}>
+                    <OrderDetails />
+                </Modal>
+            }
+        </>
     );
 };
 
 BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
+    ingredients: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
 };

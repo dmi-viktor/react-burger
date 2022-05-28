@@ -1,6 +1,5 @@
 import React from 'react';
 import style from './category.module.css';
-import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from '../ingredient/ingredient';
 import PropTypes from 'prop-types';
 
@@ -13,7 +12,7 @@ export default function Category({ code, title, list }) {
             <div className={style.ingredientList}>
                 {
                     list.map((data, index) => (
-                        <Ingredient data={data} key={data._id} />
+                        <Ingredient ingredientData={data} key={data._id} />
                     ))
                 }
             </div>
@@ -22,6 +21,7 @@ export default function Category({ code, title, list }) {
 }
 
 Category.propTypes = {
+    code: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     list: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
 };

@@ -5,10 +5,13 @@ import Tabs from '../tabs/tabs';
 import PropTypes from 'prop-types';
 
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
-import { render } from 'react-dom';
 
-export default function IngredientList({ data }) {
-    const [state, setState] = React.useState({ data: data });
+export default function BurgerIngredients({ allIngredients }) {
+    const [ingredients, setIngredients] = React.useState( allIngredients );
+
+    const getFilteredIngredients = (category) => {
+        return ingredients.filter(data => data.type == category)
+    }
 
     return (
         <div className={style.ingredientList}>
@@ -16,9 +19,9 @@ export default function IngredientList({ data }) {
             <div className={`custom-scroll ${style.categoryList}`}>
                 {
                     <>
-                        <Category title="Булочка" code="bun" list={state.data.filter(data => data.type == 'bun')} />
-                        <Category title="Соусы" code="sauce" list={state.data.filter(data => data.type == 'sauce')} />
-                        <Category title="Начинки" code="main" list={state.data.filter(data => data.type == 'main')} />
+                        <Category title="Булочка" code="bun" list={getFilteredIngredients('bun')} />
+                        <Category title="Соусы" code="sauce" list={getFilteredIngredients('sauce')} />
+                        <Category title="Начинки" code="main" list={getFilteredIngredients('main')} />
                     </>
                 }
             </div>
@@ -26,6 +29,6 @@ export default function IngredientList({ data }) {
     );
 }
 
-IngredientList.propTypes = {
-    data: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
+BurgerIngredients.propTypes = {
+    allIngredients: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
 };
