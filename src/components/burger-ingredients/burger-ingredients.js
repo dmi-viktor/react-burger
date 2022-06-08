@@ -2,12 +2,11 @@ import React from 'react';
 import style from './burger-ingredients.module.css';
 import Category from '../category/category';
 import Tabs from '../tabs/tabs';
-import PropTypes from 'prop-types';
 
-import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
+import { IngredientsContext } from '../../services/ingredients-context.js';
 
-export default function BurgerIngredients({ allIngredients }) {
-    const [ingredients, setIngredients] = React.useState( allIngredients );
+export default function BurgerIngredients() {    
+    const { ingredients, setIngredients } = React.useContext(IngredientsContext); 
 
     const getFilteredIngredients = (category) => {
         return ingredients.filter(data => data.type == category)
@@ -28,7 +27,3 @@ export default function BurgerIngredients({ allIngredients }) {
         </div>
     );
 }
-
-BurgerIngredients.propTypes = {
-    allIngredients: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
-};
