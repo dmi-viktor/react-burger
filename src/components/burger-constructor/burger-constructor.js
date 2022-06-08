@@ -6,18 +6,22 @@ import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-co
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 import { IngredientsInConstructorContext } from '../../services/ingredients-context.js';
-import { OrderContext } from '../../services/order-context.js';
 import { createOrder } from '../../utils/burger-api'
 import { v4 as uuidv4 } from 'uuid';
 
 export default function BurgerConstructor() {
-    const [orderModalState, setOrderModalState] = React.useState({ isVisible: false });
     const { ingredientsInConstructor, setIngredientsInConstructor } = React.useContext(IngredientsInConstructorContext);
+
+    const [orderModalState, setOrderModalState] = React.useState({ isVisible: false });
+    const [ selectedBun, setSelectedBun ] = React.useState(null);
+    const [ selectedToppings, setSelectedToppings ] = React.useState([]);
+
     const [orderState, setOrderState] = React.useState({
         "success": false,
         "name": "",
         "order": { "number": null }
     });
+
     const [loadingState, setLoadingState] = React.useState({
         isLoading: false,
         hasError: false,
@@ -51,20 +55,28 @@ export default function BurgerConstructor() {
         setOrderModalState({ ...orderModalState, isVisible: false });
     }
 
+    React.useEffect(() => {
+        let bun = getBun();
+        setSelectedBun(bun);
+
+        let toppings = getStuffing();
+        setSelectedToppings(toppings);
+    }, [ingredientsInConstructor])
+
     // Сумма заказа
-    const totalSum = () => {
-        return ingredientsInConstructor.reduce(
+    const totalSum = React.useMemo(() => {
+        ingredientsInConstructor.reduce(
             (sum, item) =>
                 (item.type == 'bun')
                     ? (sum + item.price * 2)
                     : (sum + item.price)
             , 0);
-    };
+    }, [ingredientsInConstructor]);
 
-    // С точки зрения алгоритмической сложности это не красивое решение
-    // Был бы рад совету. Можно при помощи useEffect в state записать и ограничить изменением ingredients, но не будет ли это награмождением?
+    // Получить только булку
     const getBun = () => ingredientsInConstructor.find(item => item.type === 'bun');
 
+    // Получить только начинки
     const getStuffing = () => ingredientsInConstructor.filter(item => item.type !== 'bun');
 
     const getUniqId = () => uuidv4();
@@ -74,19 +86,19 @@ export default function BurgerConstructor() {
             <div className={style.burgerConstructorBox}>
 
                 {// Верхняя булочка
-                    getBun() &&
+                    selectedBun &&
                     <ConstructorElementBox
                         type="top"
                         isLocked={true}
-                        text={getBun().name}
-                        price={getBun().price}
-                        imgUrl={getBun().image}
+                        text={selectedBun.name}
+                        price={selectedBun.price}
+                        imgUrl={selectedBun.image}
                     />
                 }
 
                 <div className={`custom-scroll mb-4 ${style.ingredientList}`}>
                     {// Начинка
-                        getStuffing()
+                        selectedToppings
                             .map((item, index) => {
 
                             return <ConstructorElementBox
@@ -102,18 +114,18 @@ export default function BurgerConstructor() {
                 </div>
 
                 {// Нижняя булочка
-                    getBun() &&                    
+                    selectedBun &&                    
                     <ConstructorElementBox
                         type="bottom"
                         isLocked={true}
-                        text={getBun().name}
-                        price={getBun().price}
-                        imgUrl={getBun().image}
+                        text={selectedBun.name}
+                        price={selectedBun.price}
+                        imgUrl={selectedBun.image}
                     />
                 }
 
                 <div className={`pt-10 ${style.runningTitle}`}>
-                    <span className="text text_type_digits-medium">{totalSum()}</span>
+                    <span className="text text_type_digits-medium">{totalSum}</span>
 
                     <div className="pr-2 pl-2">
                         <CurrencyIcon type="primary" />
@@ -129,9 +141,7 @@ export default function BurgerConstructor() {
             {
                 orderModalState.isVisible &&
                 <Modal onClose={handleCloseModal}>
-                    <OrderContext.Provider value={{ orderState, setOrderState }}>
-                        <OrderDetails />
-                    </OrderContext.Provider>
+                    <OrderDetails orderId={orderState.order.number} />
                 </Modal>
             }            
         </>

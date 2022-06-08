@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 
 import {catalogIngredientType} from '../../types/catalog-ingredient-type.js';
 
-export default function Category({ code, title, list }) {
+export default function Category({ code, title, list, reference }) {
     return (
-        <div id={code} className={style.categoryBox}>
+        <div id={code} className={style.categoryBox} ref={reference}>
             <span className="text text_type_main-medium pt-6">{title}</span>
             <div className={style.ingredientList}>
                 {
