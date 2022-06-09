@@ -2,33 +2,37 @@ import React from 'react';
 import style from './burger-ingredients.module.css';
 import Category from '../category/category';
 import Tabs from '../tabs/tabs';
-import PropTypes from 'prop-types';
 
-import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
+import { IngredientsContext } from '../../services/ingredients-context.js';
+import { useInView } from 'react-intersection-observer';
 
-export default function BurgerIngredients({ allIngredients }) {
-    const [ingredients, setIngredients] = React.useState( allIngredients );
+export default function BurgerIngredients() {    
+    const { ingredients, setIngredients } = React.useContext(IngredientsContext); 
 
     const getFilteredIngredients = (category) => {
         return ingredients.filter(data => data.type == category)
     }
 
+    const [ bunRef, inViewBun ] = useInView({
+        threshold: 0.2,
+    });
+
+    const [ sauceRef, inViewSauce ] = useInView({
+        threshold: 0.2,
+    });
+
+    const [ mainRef, inViewMain ] = useInView({
+        threshold: 0.2,
+    });
+
     return (
         <div className={style.ingredientList}>
-            <Tabs />
+            <Tabs inViewBun={inViewBun} inViewSauce={inViewSauce} inViewMain={inViewMain}/>
             <div className={`custom-scroll ${style.categoryList}`}>
-                {
-                    <>
-                        <Category title="Булочка" code="bun" list={getFilteredIngredients('bun')} />
-                        <Category title="Соусы" code="sauce" list={getFilteredIngredients('sauce')} />
-                        <Category title="Начинки" code="main" list={getFilteredIngredients('main')} />
-                    </>
-                }
+                <Category reference={bunRef} title="Булочка" code="bun" list={getFilteredIngredients('bun')} />
+                <Category reference={sauceRef} title="Соусы" code="sauce" list={getFilteredIngredients('sauce')} />
+                <Category reference={mainRef} title="Начинки" code="main" list={getFilteredIngredients('main')} />
             </div>
         </div>
     );
 }
-
-BurgerIngredients.propTypes = {
-    allIngredients: PropTypes.arrayOf(catalogIngredientType.isRequired).isRequired
-};

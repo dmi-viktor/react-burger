@@ -11,17 +11,17 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 const modalRoot = document.getElementById("react-modals");
 
 export default function Modal({ children, onClose }) {
-    const keystrokeEscape = (event) => {
+    const handleEscKey = (event) => {
         if (event.key === "Escape") {
             onClose();
         }
     }
 
     React.useEffect(() => {
-        document.addEventListener("keydown", keystrokeEscape, false);
+        document.addEventListener("keydown", handleEscKey, false);
 
         return () => {
-            document.removeEventListener("keydown", keystrokeEscape, false);
+            document.removeEventListener("keydown", handleEscKey, false);
         };
     }, []
     )

@@ -1,10 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\public",
     "\\src",
     "\\src\\components",
+    "\\src\\components\\ingredient-details",
+    "\\src\\components\\ingredient-value-details",
+    "\\src\\components\\modal-overlay",
+    "\\src\\components\\order-details",
+    "\\src\\images",
     "\\src\\utils"
   ],
-  "SelectedNode": "\\src\\App.tsx",
+  "SelectedNode": "\\src\\components\\modal\\modal.js",
   "PreviewInSolutionExplorer": false
 }
