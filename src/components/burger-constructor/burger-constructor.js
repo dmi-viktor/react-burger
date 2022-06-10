@@ -1,20 +1,76 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import style from './burger-constructor.module.css';
 import ConstructorElementBox from '../constructor-element/constructor-element';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
+import update from 'immutability-helper'
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
-import { IngredientsInConstructorContext } from '../../services/ingredients-context.js';
 import { createOrder } from '../../utils/burger-api'
 import { v4 as uuidv4 } from 'uuid';
+import { useDrop } from "react-dnd";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    ADD_TO_CONSTRUCTOR,
+    REMOVE_FROM_CONSTRUCTOR,
+    OVERWRITING_CONSTRUCTOR
+} from '../../services/actions/burger-constructor';
+
+import {
+    CREATE_ORDER_CLEAR
+} from '../../services/actions/order-details';
+
+import { createOrderOnServer } from '../../services/actions/order-details';
+
 
 export default function BurgerConstructor() {
-    const { ingredientsInConstructor, setIngredientsInConstructor } = React.useContext(IngredientsInConstructorContext);
+    const { constructorItems } = useSelector(state => state.burgerConstructor);
+    const allIngredients = useSelector(state => state.ingredients.items);
+    const order = useSelector(state => state.order);
 
-    const [orderModalState, setOrderModalState] = React.useState({ isVisible: false });
     const [ selectedBun, setSelectedBun ] = React.useState(null);
     const [ selectedToppings, setSelectedToppings ] = React.useState([]);
+    const dispatch = useDispatch();
+
+    const getUniqId = () => uuidv4();
+
+    const addToConstuctor = (item) => {
+        if (item.type === 'bun' && selectedBun !== undefined) {
+            removeFromConstuctor(selectedBun, selectedBun.uuid);
+        }
+
+        dispatch({
+            type: ADD_TO_CONSTRUCTOR,
+            ingredientData: { ...item, uuid: getUniqId() }
+        });
+    };
+
+    const removeFromConstuctor = (item) => {
+        dispatch({
+            type: REMOVE_FROM_CONSTRUCTOR,
+            ingredientData: { ...item }
+        });
+    }
+
+    const [, bunDropTarget1] = useDrop({
+        accept: "bun",
+        drop(itemId) {
+            addToConstuctor(itemId.ingredientData);
+        },
+    });
+
+    const [, bunDropTarget2] = useDrop({
+        accept: "bun",
+        drop(itemId) {
+            addToConstuctor(itemId.ingredientData);
+        },
+    });
+
+    const [, fillingDropTarget] = useDrop({
+        accept: "filling",
+        drop(itemId) {
+            addToConstuctor(itemId.ingredientData);
+        },
+    });
 
     const [orderState, setOrderState] = React.useState({
         "success": false,
@@ -22,64 +78,64 @@ export default function BurgerConstructor() {
         "order": { "number": null }
     });
 
-    const [loadingState, setLoadingState] = React.useState({
-        isLoading: false,
-        hasError: false,
-    });
-
     const makeOrder = () => {
-        setLoadingState({ ...loadingState, hasError: false, isLoading: true });
+        const ids = constructorItems.map(item => item._id);
 
-        const ids = ingredientsInConstructor.map(item => item._id); // булку без повтора согласно задания? 
-
-        createOrder(ids)
-            .then(data => {
-                setLoadingState({ ...loadingState, isLoading: false });
-
-                setOrderState(data);
-
-                if (data.success) {
-                    handleOpenModal();
-                }
-            })
-            .catch(e => {
-                setLoadingState({ ...loadingState, hasError: true, isLoading: false });
-            });
-    }
-
-    const handleOpenModal = () => {
-        setOrderModalState({ ...orderModalState, isVisible: true });
+        dispatch(createOrderOnServer(ids));
     }
 
     const handleCloseModal = () => {
-        setOrderModalState({ ...orderModalState, isVisible: false });
+        console.log(order.orderDetails , '666');
+        dispatch({
+            type: CREATE_ORDER_CLEAR
+        });
     }
 
+    /// Бургера без булки не бывает, по умолчанию что-то должно быть...
     React.useEffect(() => {
-        let bun = getBun();
+        if (selectedBun !== undefined) return;
+
+        let bun = getBun(allIngredients);
+        addToConstuctor(bun);
+    }, [allIngredients]);
+
+    React.useEffect(() => {
+        if (constructorItems === undefined) return;
+
+        let bun = getBun(constructorItems);
         setSelectedBun(bun);
 
         let toppings = getStuffing();
         setSelectedToppings(toppings);
-    }, [ingredientsInConstructor])
+    }, [constructorItems])
 
     // Сумма заказа
     const totalSum = React.useMemo(() => {
-        ingredientsInConstructor.reduce(
-            (sum, item) =>
-                (item.type == 'bun')
-                    ? (sum + item.price * 2)
-                    : (sum + item.price)
-            , 0);
-    }, [ingredientsInConstructor]);
+        if (constructorItems === undefined || !constructorItems) return 0;
+
+        return (
+            constructorItems.reduce(
+                    (sum, item) =>
+                        (item.type == 'bun')
+                            ? (sum + item.price * 2)
+                            : (sum + item.price)
+                    , 0));
+    }, [constructorItems]);
 
     // Получить только булку
-    const getBun = () => ingredientsInConstructor.find(item => item.type === 'bun');
+    const getBun = (list) => list.find(item => item.type === 'bun');
 
     // Получить только начинки
-    const getStuffing = () => ingredientsInConstructor.filter(item => item.type !== 'bun');
+    const getStuffing = () => constructorItems.filter(item => item.type !== 'bun');
 
-    const getUniqId = () => uuidv4();
+    const moveCard = useCallback((dragIndex, hoverIndex) => {
+        dispatch({
+            type: OVERWRITING_CONSTRUCTOR,
+            dragIndex: dragIndex,
+            hoverIndex: hoverIndex,
+            filling: selectedToppings
+        });
+    }, []);
 
     return (
         <>
@@ -87,61 +143,76 @@ export default function BurgerConstructor() {
 
                 {// Верхняя булочка
                     selectedBun &&
-                    <ConstructorElementBox
-                        type="top"
-                        isLocked={true}
-                        text={selectedBun.name}
-                        price={selectedBun.price}
-                        imgUrl={selectedBun.image}
-                    />
+                    <div ref={bunDropTarget1}>
+                        <ConstructorElementBox                        
+                            type="top"
+                            isLocked={true}
+                            text={selectedBun.name}
+                            price={selectedBun.price}
+                            imgUrl={selectedBun.image}
+                            />
+                    </div>
                 }
 
-                <div className={`custom-scroll mb-4 ${style.ingredientList}`}>
+                <div ref={fillingDropTarget} className={`custom-scroll mb-4 ${style.ingredientList}`}>
+                    {
+                        selectedToppings.length == 0 &&
+                        <div className={style.dragAndDropHint}>
+                            Перетащите начинку
+                        </div>
+                    }
+
                     {// Начинка
                         selectedToppings
                             .map((item, index) => {
 
                             return <ConstructorElementBox
-                                key={getUniqId()}
+                                key={item.uuid}
                                 type="middle"
                                 isLocked={false}
                                 text={item.name}
                                 price={item.price}
                                 imgUrl={item.image}
+                                index={index}
+                                handleClose={() => { removeFromConstuctor(item); }}
+                                moveCard={moveCard}
                             />
                         })
                     }
                 </div>
 
                 {// Нижняя булочка
-                    selectedBun &&                    
-                    <ConstructorElementBox
-                        type="bottom"
-                        isLocked={true}
-                        text={selectedBun.name}
-                        price={selectedBun.price}
-                        imgUrl={selectedBun.image}
-                    />
-                }
-
-                <div className={`pt-10 ${style.runningTitle}`}>
-                    <span className="text text_type_digits-medium">{totalSum}</span>
-
-                    <div className="pr-2 pl-2">
-                        <CurrencyIcon type="primary" />
+                    selectedBun &&   
+                    <div ref={bunDropTarget2}>
+                        <ConstructorElementBox
+                            type="bottom"
+                            isLocked={true}
+                            text={selectedBun.name}
+                            price={selectedBun.price}
+                            imgUrl={selectedBun.image}
+                            />
                     </div>
+                }
+                {
+                    constructorItems !== undefined &&
 
-                    <Button type="primary" size="medium" onClick={makeOrder}>
-                        Оформить заказ
-                        </Button>
-                </div>
-            </div>
+                    <div className={`pt-10 ${style.runningTitle}`}>
+                        <span className="text text_type_digits-medium">{totalSum}</span>
 
-            
+                        <div className="pr-2 pl-2">
+                            <CurrencyIcon type="primary" />
+                        </div>                       
+
+                        <Button type="primary" size="medium" onClick={makeOrder}>
+                                Оформить заказ
+                        </Button>                        
+                    </div>
+                }
+            </div>            
             {
-                orderModalState.isVisible &&
+                order.orderDetails &&
                 <Modal onClose={handleCloseModal}>
-                    <OrderDetails orderId={orderState.order.number} />
+                    <OrderDetails orderId={order.orderDetails.order.number} />
                 </Modal>
             }            
         </>

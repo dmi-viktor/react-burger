@@ -3,14 +3,14 @@ import style from './burger-ingredients.module.css';
 import Category from '../category/category';
 import Tabs from '../tabs/tabs';
 
-import { IngredientsContext } from '../../services/ingredients-context.js';
 import { useInView } from 'react-intersection-observer';
+import { useSelector } from 'react-redux';
 
-export default function BurgerIngredients() {    
-    const { ingredients, setIngredients } = React.useContext(IngredientsContext); 
+export default function BurgerIngredients() {
+    const { items } = useSelector(state => state.ingredients);
 
     const getFilteredIngredients = (category) => {
-        return ingredients.filter(data => data.type == category)
+        return items.filter(data => data.type == category)
     }
 
     const [ bunRef, inViewBun ] = useInView({

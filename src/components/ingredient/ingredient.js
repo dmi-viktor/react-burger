@@ -4,21 +4,53 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import { useDrag } from "react-dnd";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    SHOW_INGREDIENT_DETAILS,
+    CLOSE_INGREDIENT_DETAILS    
+} from '../../services/actions/ingredient-details';
 
 export default function Ingredient({ ingredientData }) {
-    const [isVisibleModal, setVisibleModal] = React.useState( false );
+    const { constructorItems } = useSelector(state => state.burgerConstructor);
+    const [ ingredientCount, setIngredientCount ] = React.useState(0);
+
+    const { details } = useSelector(state => state.ingredientDetails);
+    const dispatch = useDispatch();
+
+    const [, dragRef] = useDrag({
+        type: ingredientData.type == 'bun' ? 'bun' : 'filling',
+        item: { ingredientData }
+    });
 
     const handleOpenModal = () => {
-        setVisibleModal(true);
+        dispatch({
+            type: SHOW_INGREDIENT_DETAILS,
+            details: ingredientData
+        });
     }
 
     const handleCloseModal = () => {
-        setVisibleModal(false);
+        dispatch({
+            type: CLOSE_INGREDIENT_DETAILS
+        });
     }
+
+    React.useEffect(() => {
+        var res = constructorItems
+            .filter(item => item._id === ingredientData._id)
+            .reduce(
+                (count, item) =>
+                    (item.type == 'bun')
+                        ? (count + 2)
+                        : (count + 1)
+                , 0);
+        setIngredientCount(res);
+    }, [constructorItems]);
 
     return (
         <>
-            <button className={style.productBox + " mt-6 ml-4 mr-4"} onClick={handleOpenModal}>
+            <div ref={dragRef} className={style.productBox + " mt-6 ml-4 mr-4"} onClick={handleOpenModal}>
                 <img className="pl-4 pr-4 pb-1" src={ingredientData.image} />
                 <div className={style.priceBox} >
                     <span className="text text_type_digits-default pr-1">{ingredientData.price}</span>
@@ -27,12 +59,15 @@ export default function Ingredient({ ingredientData }) {
                 <span className="text text_type_main-default pt-1">
                     {ingredientData.name}
                 </span>
-                <Counter count={1} size="default" />
-            </button>
+                {
+                    ingredientCount !== 0 &&
+                    <Counter count={ingredientCount} size="default" />
+                }
+            </div>
             {
-                isVisibleModal &&
+                details && details._id === ingredientData._id &&
                 <Modal onClose={handleCloseModal}>
-                    <IngredientDetails details={ingredientData} />
+                    <IngredientDetails details={details} />
                 </Modal>
             }
         </>

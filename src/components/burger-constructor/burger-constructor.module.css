@@ -17,3 +17,15 @@
     justify-content: end;
     align-items: center;
 }
+
+.dragAndDropHint {
+    border-width: 1px;
+    border-style: dashed;
+    border-color: #F2F2F3;
+    margin: 0 35px 0 68px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+}
