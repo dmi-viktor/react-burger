@@ -2,12 +2,14 @@ import React from 'react';
 import style from './burger-ingredients.module.css';
 import Category from '../category/category';
 import Tabs from '../tabs/tabs';
+import { getIngredientsFromServer } from '../../services/actions/burger-ingredients';
 
 import { useInView } from 'react-intersection-observer';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function BurgerIngredients() {
-    const { items } = useSelector(state => state.ingredients);
+    const { items, itemsRequest, itemsFailed } = useSelector(state => state.ingredients);
+    const dispatch = useDispatch();
 
     const getFilteredIngredients = (category) => {
         return items.filter(data => data.type == category)
@@ -25,14 +27,27 @@ export default function BurgerIngredients() {
         threshold: 0.2,
     });
 
-    return (
+    // Инициализируем получение ингредиентов с сервера
+    React.useEffect(() => {
+        dispatch(getIngredientsFromServer());
+    }, [])
+
+    return (    
         <div className={style.ingredientList}>
-            <Tabs inViewBun={inViewBun} inViewSauce={inViewSauce} inViewMain={inViewMain}/>
-            <div className={`custom-scroll ${style.categoryList}`}>
-                <Category reference={bunRef} title="Булочка" code="bun" list={getFilteredIngredients('bun')} />
-                <Category reference={sauceRef} title="Соусы" code="sauce" list={getFilteredIngredients('sauce')} />
-                <Category reference={mainRef} title="Начинки" code="main" list={getFilteredIngredients('main')} />
-            </div>
-        </div>
+            <Tabs inViewBun={inViewBun} inViewSauce={inViewSauce} inViewMain={inViewMain} />
+            {itemsRequest && 'Загрузка...'}
+            {itemsFailed && 'Произошла ошибка'}
+            {
+                !itemsRequest &&
+                !itemsFailed &&
+                <>                
+                    <div className={`custom-scroll ${style.categoryList}`}>
+                        <Category reference={bunRef} title="Булочка" code="bun" list={getFilteredIngredients('bun')} />
+                        <Category reference={sauceRef} title="Соусы" code="sauce" list={getFilteredIngredients('sauce')} />
+                        <Category reference={mainRef} title="Начинки" code="main" list={getFilteredIngredients('main')} />
+                    </div>
+                </>
+            }
+        </div >
     );
 }

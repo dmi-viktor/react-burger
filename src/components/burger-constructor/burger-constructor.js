@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
     ADD_TO_CONSTRUCTOR,
     REMOVE_FROM_CONSTRUCTOR,
-    OVERWRITING_CONSTRUCTOR
+    MOVE_IN_CONSTRUCTOR
 } from '../../services/actions/burger-constructor';
 
 import {
@@ -85,7 +85,6 @@ export default function BurgerConstructor() {
     }
 
     const handleCloseModal = () => {
-        console.log(order.orderDetails , '666');
         dispatch({
             type: CREATE_ORDER_CLEAR
         });
@@ -130,10 +129,9 @@ export default function BurgerConstructor() {
 
     const moveCard = useCallback((dragIndex, hoverIndex) => {
         dispatch({
-            type: OVERWRITING_CONSTRUCTOR,
+            type: MOVE_IN_CONSTRUCTOR,
             dragIndex: dragIndex,
-            hoverIndex: hoverIndex,
-            filling: selectedToppings
+            hoverIndex: hoverIndex
         });
     }, []);
 
@@ -212,7 +210,7 @@ export default function BurgerConstructor() {
             {
                 order.orderDetails &&
                 <Modal onClose={handleCloseModal}>
-                    <OrderDetails orderId={order.orderDetails.order.number} />
+                    <OrderDetails />
                 </Modal>
             }            
         </>

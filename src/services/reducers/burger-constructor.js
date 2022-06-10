@@ -1,7 +1,7 @@
 import {
     ADD_TO_CONSTRUCTOR,
     REMOVE_FROM_CONSTRUCTOR,
-    OVERWRITING_CONSTRUCTOR
+    MOVE_IN_CONSTRUCTOR
 } from '../actions/burger-constructor';
 
 const initialState = {
@@ -25,7 +25,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                 constructorItems: [...state.constructorItems].filter(item => item.uuid !== action.ingredientData.uuid)
             };
         }
-        case OVERWRITING_CONSTRUCTOR: {
+        case MOVE_IN_CONSTRUCTOR: {
             let result = [...state.constructorItems].filter(item => item.type !== 'bun');
 
             let hoverIndex = action.hoverIndex;

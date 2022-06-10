@@ -67,7 +67,7 @@ export default function Ingredient({ ingredientData }) {
             {
                 details && details._id === ingredientData._id &&
                 <Modal onClose={handleCloseModal}>
-                    <IngredientDetails details={details} />
+                    <IngredientDetails />
                 </Modal>
             }
         </>

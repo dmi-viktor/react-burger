@@ -35,7 +35,6 @@ export const orderReducer = (state = initialState, action) => {
             };
         }
         case CREATE_ORDER_CLEAR: {
-            console.log('+++');
             return {
                 ...state,
                 orderDetails: null
