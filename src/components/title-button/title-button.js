@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 
 export default function TitleButton(props) {
-    const isActive = !!useRouteMatch({ path: props.target, exact: true });
+    const isActive = !!useRouteMatch({ path: props.target, exact: props.target === '/' });
 
     return (
         <NavLink className={`pt-4 pb-4 pr-5 pl-5 ${styles.titleButton}`} style={{ opacity: (isActive ? '1' : '0.6') }} to={props.target} >

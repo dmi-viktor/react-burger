@@ -64,7 +64,7 @@ function ModalSwitch() {
                     <LoginPage />
                 </Route>
 
-                <Route path="/register" exact={false}>
+                <Route path="/register" exact={true}>
                     <RegistrationPage />
                 </Route>
 
@@ -76,7 +76,11 @@ function ModalSwitch() {
                     <PasswordRecovery2Page />
                 </Route>
 
-                <ProtectedRoute path="/profile">
+                <ProtectedRoute path="/profile/orders" exact={true}>
+                    <ProfilePage />
+                </ProtectedRoute>
+
+                <ProtectedRoute path="/profile" exact={true}>
                     <ProfilePage />
                 </ProtectedRoute>
 

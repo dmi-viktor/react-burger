@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import styles from './preloader.module.css';
 
 export default function Preloader({ description }) {
