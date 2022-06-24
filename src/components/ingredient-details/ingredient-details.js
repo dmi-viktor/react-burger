@@ -1,9 +1,11 @@
 import React from 'react';
 import style from './ingredient-details.module.css';
-import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
 import IngredientValueDetails from '../ingredient-value-details/ingredient-value-details'
+import { useSelector } from 'react-redux';
 
-export default function IngredientDetails({ details }) {
+export default function IngredientDetails() {
+    const { details } = useSelector(state => state.ingredientDetails);
+
     return (
 
             <div className={style.mainModal}>
@@ -25,7 +27,3 @@ export default function IngredientDetails({ details }) {
             </div>
         );
 }
-
-IngredientDetails.propTypes = {
-    details: catalogIngredientType.isRequired
-};
