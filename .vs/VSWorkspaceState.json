@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\public",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\ingredient-details",
-    "\\src\\components\\ingredient-value-details",
-    "\\src\\components\\modal-overlay",
-    "\\src\\components\\order-details",
-    "\\src\\images",
-    "\\src\\utils"
+    "\\src\\components\\burger-constructor",
+    "\\src\\components\\category",
+    "\\src\\components\\constructor-element",
+    "\\src\\components\\ingredient",
+    "\\src\\services",
+    "\\src\\services\\actions",
+    "\\src\\services\\reducers"
   ],
-  "SelectedNode": "\\src\\components\\modal\\modal.js",
+  "SelectedNode": "\\src\\components\\burger-constructor\\burger-constructor.js",
   "PreviewInSolutionExplorer": false
 }

@@ -1,0 +1,25 @@
+.loginWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.title{
+ 
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.link{
+    color: #4C4CFF;
+    text-decoration: inherit;
+}
+
+.errorMessage {
+    color: red;
+}

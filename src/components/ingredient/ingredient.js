@@ -4,6 +4,8 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import { catalogIngredientType } from '../../types/catalog-ingredient-type.js';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+
+import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -15,7 +17,7 @@ export default function Ingredient({ ingredientData }) {
     const { constructorItems } = useSelector(state => state.burgerConstructor);
     const [ ingredientCount, setIngredientCount ] = React.useState(0);
 
-    const { details } = useSelector(state => state.ingredientDetails);
+    //const { details } = useSelector(state => state.ingredientDetails);
     const dispatch = useDispatch();
 
     const [, dragRef] = useDrag({
@@ -27,12 +29,6 @@ export default function Ingredient({ ingredientData }) {
         dispatch({
             type: SHOW_INGREDIENT_DETAILS,
             details: ingredientData
-        });
-    }
-
-    const handleCloseModal = () => {
-        dispatch({
-            type: CLOSE_INGREDIENT_DETAILS
         });
     }
 
@@ -48,9 +44,14 @@ export default function Ingredient({ ingredientData }) {
         setIngredientCount(res);
     }, [constructorItems]);
 
+    let location = useLocation();
+
     return (
         <>
-            <div ref={dragRef} className={style.productBox + " mt-6 ml-4 mr-4"} onClick={handleOpenModal}>
+            <Link ref={dragRef} className={style.productBox + " mt-6 ml-4 mr-4"} to={{
+                pathname: `/ingredients/${ingredientData._id}`,
+                state: { background: location }
+            }}>
                 <img className="pl-4 pr-4 pb-1" src={ingredientData.image} />
                 <div className={style.priceBox} >
                     <span className="text text_type_digits-default pr-1">{ingredientData.price}</span>
@@ -63,13 +64,7 @@ export default function Ingredient({ ingredientData }) {
                     ingredientCount !== 0 &&
                     <Counter count={ingredientCount} size="default" />
                 }
-            </div>
-            {
-                details && details._id === ingredientData._id &&
-                <Modal onClose={handleCloseModal}>
-                    <IngredientDetails />
-                </Modal>
-            }
+            </Link>
         </>
     );
 }

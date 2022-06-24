@@ -1,0 +1,8 @@
+.title {
+    text-align: left;
+}
+
+.content {
+    display: flex;
+    height: calc(100% - 140px);
+}

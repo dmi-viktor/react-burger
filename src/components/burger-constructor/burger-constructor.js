@@ -20,7 +20,8 @@ import {
 } from '../../services/actions/order-details';
 
 import { createOrderOnServer } from '../../services/actions/order-details';
-
+import { useHistory } from 'react-router-dom';
+import Preloader from '../preloader/preloader.js';
 
 export default function BurgerConstructor() {
     const { constructorItems } = useSelector(state => state.burgerConstructor);
@@ -31,7 +32,11 @@ export default function BurgerConstructor() {
     const [ selectedToppings, setSelectedToppings ] = React.useState([]);
     const dispatch = useDispatch();
 
+    const auth = useSelector(state => state.auth);
+
     const getUniqId = () => uuidv4();
+
+    let history = useHistory();
 
     const addToConstuctor = (item) => {
         if (item.type === 'bun' && selectedBun !== undefined) {
@@ -79,9 +84,12 @@ export default function BurgerConstructor() {
     });
 
     const makeOrder = () => {
-        const ids = constructorItems.map(item => item._id);
-
-        dispatch(createOrderOnServer(ids));
+        if (!auth.isAuth) {
+            history.replace({ pathname: '/login' });
+        } else {
+            const ids = constructorItems.map(item => item._id);
+            dispatch(createOrderOnServer(ids));
+        }
     }
 
     const handleCloseModal = () => {
@@ -202,7 +210,7 @@ export default function BurgerConstructor() {
                         </div>                       
 
                         <Button type="primary" size="medium" onClick={makeOrder}>
-                                Оформить заказ
+                            Оформить заказ
                         </Button>                        
                     </div>
                 }
@@ -212,7 +220,10 @@ export default function BurgerConstructor() {
                 <Modal onClose={handleCloseModal}>
                     <OrderDetails />
                 </Modal>
-            }            
+            }           
+            {
+                order.itemsRequest && <Preloader description='У Вас есть время помыть руки...' />
+            }
         </>
     );
 };
