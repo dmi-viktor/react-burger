@@ -1,6 +1,7 @@
 import {
     ADD_TO_CONSTRUCTOR,
     REMOVE_FROM_CONSTRUCTOR,
+    REMOVE_ALL_FROM_CONSTRUCTOR,
     MOVE_IN_CONSTRUCTOR
 } from '../actions/burger-constructor';
 
@@ -9,9 +10,6 @@ const initialState = {
 };
 
 export const burgerConstructorReducer = (state = initialState, action) => {
-    
-
-
     switch (action.type) {
         case ADD_TO_CONSTRUCTOR: {
             return {
@@ -23,6 +21,12 @@ export const burgerConstructorReducer = (state = initialState, action) => {
             return {
                 ...state,
                 constructorItems: [...state.constructorItems].filter(item => item.uuid !== action.ingredientData.uuid)
+            };
+        }
+        case REMOVE_ALL_FROM_CONSTRUCTOR: {
+            return {
+                ...state,
+                constructorItems: [...state.constructorItems].filter(item => false)
             };
         }
         case MOVE_IN_CONSTRUCTOR: {

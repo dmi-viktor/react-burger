@@ -1,0 +1,8 @@
+.field {
+    all: unset;
+    background-color: #2F2F37;
+    border-radius: 40px;
+    padding: 20px;
+    width: 440px;
+    line-height: 24px;
+}

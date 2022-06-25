@@ -5,7 +5,7 @@ export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
 export const CREATE_ORDER_ERROR = 'CREATE_ORDER_ERROR';
 export const CREATE_ORDER_CLEAR = 'CREATE_ORDER_CLEAR';
 
-export function createOrderOnServer(ids) {
+export function createOrderOnServer(ids, successFunc) {
     return function (dispatch) {
         dispatch({
             type: CREATE_ORDER_REQUEST
@@ -18,6 +18,10 @@ export function createOrderOnServer(ids) {
                         type: CREATE_ORDER_SUCCESS,
                         details: data
                     });
+
+                    if (successFunc) {
+                        successFunc();
+                    }
                 }
                 else {
                     dispatch({
