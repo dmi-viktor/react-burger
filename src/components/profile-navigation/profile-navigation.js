@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './profile-navigation.module.css';
 import { NavLink, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { editUserDataOnServer, logoutOnServer } from '../../services/actions/auth.js';
+import { useDispatch } from 'react-redux';
+import { logoutOnServer } from '../../services/actions/auth.js';
 
 
 export default function ProfileNavigation() {
-    let history = useHistory();
+    const history = useHistory();
     const dispatch = useDispatch();
     const logout = React.useCallback(
         e => {

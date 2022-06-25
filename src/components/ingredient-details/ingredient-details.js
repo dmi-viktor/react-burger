@@ -6,8 +6,8 @@ import { useParams } from 'react-router-dom';
 
 export default function IngredientDetails() {
     const allIngredients = useSelector(state => state.ingredients.items);
-    const [ details, setDetails ] = React.useState(null);
-    let { id } = useParams();
+    const [details, setDetails] = React.useState(null);
+    const { id } = useParams();
 
     React.useEffect(() => {        
         let details = allIngredients.find(item => item._id === id);

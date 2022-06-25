@@ -17,8 +17,8 @@ export function PasswordRecovery2Page() {
     const [form, setValue] = React.useState({ password: '', token: '' });
     const [isRequest, setIsRequest] = React.useState(false);
 
-    let restorePassword = location.state && location.state.restorePassword;
-    let history = useHistory();
+    const restorePassword = location.state && location.state.restorePassword;
+    const history = useHistory();
 
     if (auth.isAuth || !restorePassword) {
         return (
@@ -55,7 +55,7 @@ export function PasswordRecovery2Page() {
 
     return (
         <div className={styles.loginWrapper}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={sendRecoveryPassword}>
 
                 <span className={`text text_type_main-large ${styles.title}`}>Восстановление пароля</span>
 
@@ -67,7 +67,7 @@ export function PasswordRecovery2Page() {
                     <InputField placeholder='Введите код из письма' inputName='token' onChange={onChange}/>
                 </div>
 
-                <Button type="primary" size="medium" onClick={sendRecoveryPassword}>
+                <Button type="primary" size="medium">
                     Сохранить
                 </Button>
 

@@ -49,9 +49,9 @@ export default function App() {
 }
 
 function ModalSwitch() {
-    let location = useLocation();
-    let background = location.state && location.state.background;
-    let history = useHistory();
+    const history = useHistory();
+    const location = useLocation();
+    const background = location.state && location.state.background;
 
     return (
         <>
@@ -96,8 +96,8 @@ function ModalSwitch() {
             {
                 background &&
                 <Route path="/ingredients/:id">
-                    <Modal onClose={(e) => {
-                        e.stopPropagation();
+                    <Modal onClose={(e) => {                        
+                        e?.stopPropagation();
                         history.goBack();
                     }}>
                         <IngredientDetails />

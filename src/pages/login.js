@@ -33,7 +33,7 @@ export function LoginPage() {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
 
-    let login = React.useCallback(
+    const login = React.useCallback(
         e => {
             e.preventDefault();            
             dispatch(loginOnServer(form.email, form.password, processResult));
@@ -51,7 +51,7 @@ export function LoginPage() {
 
     return (
         <div className={styles.loginWrapper}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={login}>
 
                 <span className={`text text_type_main-large ${styles.title}`}>Вход</span>
 
@@ -63,7 +63,7 @@ export function LoginPage() {
                     <PasswordField placeholder='Пароль' inputName='password' onChange={onChange} />
                 </div>
 
-                <Button type="primary" size="medium" onClick={login}>
+                <Button type="primary" size="medium">
                     Войти
                 </Button>
 

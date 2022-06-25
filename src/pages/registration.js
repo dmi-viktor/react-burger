@@ -50,7 +50,7 @@ export function RegistrationPage() {
 
     return (
         <div className={styles.loginWrapper}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={register}>
 
                 <span className={`text text_type_main-large ${styles.title}`}>Регистрация</span>
 
@@ -66,7 +66,7 @@ export function RegistrationPage() {
                     <PasswordField placeholder='E-mail' inputName='password' onChange={onChange} />
                 </div>
 
-                <Button type="primary" size="medium" onClick={register}>
+                <Button type="primary" size="medium">
                     Зарегистрироваться
                 </Button>
 

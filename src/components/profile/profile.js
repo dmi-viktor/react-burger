@@ -1,14 +1,10 @@
 import React from 'react';
 import styles from './profile.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Input, EditIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { NavLink, useHistory } from 'react-router-dom';
-import PasswordField from '../password-field/password-field.js';
-import InputField from '../input-field/input-field';
-import { editUserDataOnServer, logoutOnServer } from '../../services/actions/auth.js';
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
+import { editUserDataOnServer } from '../../services/actions/auth.js';
 
 export default function Profile() {
-    let history = useHistory();
     const dispatch = useDispatch();
     const [errorMessage, setErrorMessage] = React.useState(null);
     const auth = useSelector(state => state.auth);

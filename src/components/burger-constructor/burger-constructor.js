@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
     ADD_TO_CONSTRUCTOR,
     REMOVE_FROM_CONSTRUCTOR,
+    REMOVE_ALL_FROM_CONSTRUCTOR,
     MOVE_IN_CONSTRUCTOR
 } from '../../services/actions/burger-constructor';
 
@@ -36,7 +37,7 @@ export default function BurgerConstructor() {
 
     const getUniqId = () => uuidv4();
 
-    let history = useHistory();
+    const history = useHistory();
 
     const addToConstuctor = (item) => {
         if (item.type === 'bun' && selectedBun !== undefined) {
@@ -83,12 +84,20 @@ export default function BurgerConstructor() {
         "order": { "number": null }
     });
 
+    const clearConstructor = () => {
+        dispatch(
+            {
+                type: REMOVE_ALL_FROM_CONSTRUCTOR
+            }
+        );
+    }
+
     const makeOrder = () => {
         if (!auth.isAuth) {
             history.replace({ pathname: '/login' });
         } else {
             const ids = constructorItems.map(item => item._id);
-            dispatch(createOrderOnServer(ids));
+            dispatch(createOrderOnServer(ids, clearConstructor));
         }
     }
 
@@ -97,14 +106,6 @@ export default function BurgerConstructor() {
             type: CREATE_ORDER_CLEAR
         });
     }
-
-    /// Бургера без булки не бывает, по умолчанию что-то должно быть...
-    React.useEffect(() => {
-        if (selectedBun !== undefined) return;
-
-        let bun = getBun(allIngredients);
-        addToConstuctor(bun);
-    }, [allIngredients]);
 
     React.useEffect(() => {
         if (constructorItems === undefined) return;
@@ -148,15 +149,23 @@ export default function BurgerConstructor() {
             <div className={style.burgerConstructorBox}>
 
                 {// Верхняя булочка
-                    selectedBun &&
+                    
                     <div ref={bunDropTarget1}>
-                        <ConstructorElementBox                        
-                            type="top"
-                            isLocked={true}
-                            text={selectedBun.name}
-                            price={selectedBun.price}
-                            imgUrl={selectedBun.image}
+                        {
+                            selectedBun
+                            ?
+                            <ConstructorElementBox
+                                type="top"
+                                isLocked={true}
+                                text={selectedBun.name}
+                                price={selectedBun.price}
+                                imgUrl={selectedBun.image}
                             />
+                            :
+                            <div className={`${style.burgerDragAndDropHint}`}>
+                                <span>Перетащите булку</span>
+                            </div>
+                        }
                     </div>
                 }
 
@@ -187,16 +196,23 @@ export default function BurgerConstructor() {
                     }
                 </div>
 
-                {// Нижняя булочка
-                    selectedBun &&   
+                {// Нижняя булочка                     
                     <div ref={bunDropTarget2}>
-                        <ConstructorElementBox
-                            type="bottom"
-                            isLocked={true}
-                            text={selectedBun.name}
-                            price={selectedBun.price}
-                            imgUrl={selectedBun.image}
-                            />
+                        {
+                            selectedBun
+                                ?
+                                <ConstructorElementBox
+                                    type="bottom"
+                                    isLocked={true}
+                                    text={selectedBun.name}
+                                    price={selectedBun.price}
+                                    imgUrl={selectedBun.image}
+                                />
+                                :
+                                <div className={`${style.burgerDragAndDropHint}`}>
+                                    <span>Перетащите булку</span>
+                                </div>
+                        }
                     </div>
                 }
                 {
@@ -222,7 +238,7 @@ export default function BurgerConstructor() {
                 </Modal>
             }           
             {
-                order.itemsRequest && <Preloader description='У Вас есть время помыть руки...' />
+                order.itemsRequest && <Preloader description='У Вас есть время помыть конечности...' />
             }
         </>
     );

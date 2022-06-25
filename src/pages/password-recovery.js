@@ -53,7 +53,7 @@ export function PasswordRecoveryPage() {
     
     return (
         <div className={styles.loginWrapper}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={sendRecoveryPassword}>
 
                 <span className={`text text_type_main-large ${styles.title}`}>Восстановление пароля</span>
 
@@ -61,7 +61,7 @@ export function PasswordRecoveryPage() {
                     <InputField placeholder='Укажите E-mail' inputName='email' onChange={onChange}/>
                 </div>
 
-                <Button type="primary" size="medium" onClick={sendRecoveryPassword}>
+                <Button type="primary" size="medium">
                     Восстановить
                 </Button>
 

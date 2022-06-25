@@ -14,6 +14,7 @@ import {
 } from '../../services/actions/ingredient-details';
 
 export default function Ingredient({ ingredientData }) {
+    const location = useLocation();
     const { constructorItems } = useSelector(state => state.burgerConstructor);
     const [ ingredientCount, setIngredientCount ] = React.useState(0);
 
@@ -42,9 +43,7 @@ export default function Ingredient({ ingredientData }) {
                         : (count + 1)
                 , 0);
         setIngredientCount(res);
-    }, [constructorItems]);
-
-    let location = useLocation();
+    }, [constructorItems]);    
 
     return (
         <>

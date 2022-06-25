@@ -1,23 +1,20 @@
 import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
-    REGISTER_ERROR,
 
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
-    LOGIN_ERROR,
 
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
-    LOGOUT_ERROR,
 
     GET_USER_REQUEST,
     GET_USER_SUCCESS,
-    GET_USER_ERROR,
 
     EDIT_USER_REQUEST,
     EDIT_USER_SUCCESS,
-    EDIT_USER_ERROR
+
+    AUTH_ERROR
 } from '../actions/auth';
 
 const initialState = 
@@ -61,10 +58,7 @@ export const authReducer = (state = initialState, action) => {
                 user: null
             };
         }
-        case GET_USER_ERROR:
-        case EDIT_USER_ERROR:
-        case REGISTER_ERROR:
-        case LOGIN_ERROR: {
+        case AUTH_ERROR: {
             return {
                 ...state,
                 isFailed: false,

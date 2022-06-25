@@ -3,6 +3,7 @@ import headerStyle from './app-header.module.css';
 import TitleButton from '../title-button/title-button';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 export default function AppHeader() {
     const auth = useSelector(state => state.auth);
@@ -19,9 +20,9 @@ export default function AppHeader() {
                         <ListIcon type="primary" />
                     </TitleButton>
                 </nav>
-                <div className={headerStyle.logo}>
+                <Link to='/' className={headerStyle.logo}>
                     <Logo />
-                </div>
+                </Link>
 
                 <TitleButton content={auth.isAuth ? auth.user.name : "Личный кабинет"} target="/profile">
                     <ProfileIcon type="primary" />
