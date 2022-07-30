@@ -4,6 +4,9 @@ import OrderRow from '../components/order-row/order-row';
 import {TOrder} from '../utils/types';
 import { useSelector, useDispatch } from '../services/hooks';
 
+import { ORDER_FEED_URL } from '../utils/burger-api';
+import { wsConnect, wsClose } from '../services/actions/wsOrderFeedTypes';
+
 const OrderFeedPage: FC = () => {
     const dispatch = useDispatch();
     const orderFeed = useSelector(s => s.orderFeed);
@@ -19,6 +22,14 @@ const OrderFeedPage: FC = () => {
             setOrdersInPending(temp.slice(0, 10));
         }
     }, [orderFeed]);
+
+    React.useEffect(() => {
+        dispatch(wsConnect(ORDER_FEED_URL));
+
+        return () => {
+            dispatch(wsClose())
+        }
+    }, []);
 
     return (             
         <>        

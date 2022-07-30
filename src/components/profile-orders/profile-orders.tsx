@@ -6,7 +6,7 @@ import OrderRow from '../order-row/order-row';
 import { TOrder } from '../../utils/types';
 
 import { getOrderHistoryURL } from '../../utils/burger-api';
-import { wsConnect } from '../../services/actions/wsOrderHistoryTypes';
+import { wsConnect, wsClose } from '../../services/actions/wsOrderHistoryTypes';
 
 const OrdersHistory: FC = () => {
     const dispatch = useDispatch();
@@ -14,6 +14,10 @@ const OrdersHistory: FC = () => {
 
     React.useEffect(() => {
         dispatch(wsConnect(getOrderHistoryURL() as string));
+
+        return () => {
+            dispatch(wsClose());
+        }
     }, []);
 
     return (

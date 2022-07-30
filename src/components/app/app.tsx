@@ -14,8 +14,6 @@ import ProtectedRoute from '../protected-route';
 import Preloader from '../preloader/preloader';
 import OrderStatusDetails from '../order-status-details/order-status-details';
 import { Location } from 'history';
-import { ORDER_FEED_URL } from '../../utils/burger-api';
-import { wsConnect as wcConnectOrderFeed } from '../../services/actions/wsOrderFeedTypes';
 
 type TLocataionState = {
     background: Location
@@ -31,9 +29,6 @@ export default function App() {
         // @ts-ignore
         dispatch(getIngredientsFromServer());
         initAuth();
-
-        // Инициализируем загрузку данных для "Лента заказов"
-        dispatch(wcConnectOrderFeed(ORDER_FEED_URL));
     }, []);
 
     // На тот случай если Redux потерял данные об авторизации,

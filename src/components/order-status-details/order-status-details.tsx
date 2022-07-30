@@ -3,13 +3,9 @@ import style from './order-status-details.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import CircleImg from '../circle-img/circle-img';
 import { useSelector, useDispatch } from '../../services/hooks';
-
 import { useParams, useRouteMatch } from 'react-router-dom';
 
 import { TOrder, TIngredient } from '../../utils/types';
-
-import { getOrderHistoryURL } from '../../utils/burger-api';
-import { wsConnect } from '../../services/actions/wsOrderHistoryTypes';
 
 const OrderStatusDetails = ({ data }: { data?: TOrder }) => {
     const dispatch = useDispatch();
@@ -54,12 +50,6 @@ const OrderStatusDetails = ({ data }: { data?: TOrder }) => {
         let order = isFeed ? getOrderFromFeed(id) : getOrderFromHistory(id);
         setOrder(order);
     }, [orderFeed, orderHistory, id]);
-
-    React.useEffect(() => {
-        dispatch(wsConnect(getOrderHistoryURL() as string));
-    }, []);
-
-
 
     React.useEffect(() => {
 
