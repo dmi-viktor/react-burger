@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import styles from './login.module.css';
 
-import { Button, Input, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 
 import PasswordField from '../components/password-field/password-field';
 import InputField from '../components/input-field/input-field';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import { loginOnServer } from '../services/actions/auth';
 import { TLocataionState } from '../utils/types';
 
@@ -19,7 +19,6 @@ const LoginPage: FC = () => {
     const [form, setValue] = React.useState<{ email: string, password: string }>({ email: '', password: '' });
     const history = useHistory();
     const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-    // @ts-ignore
     const auth = useSelector(state => state.auth);
 
     const location = useLocation<TLocataionStateFrom>();

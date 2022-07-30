@@ -3,9 +3,8 @@ import styles from './login.module.css';
 
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useLocation, Redirect, useHistory } from 'react-router-dom';
-import PasswordField from '../components/password-field/password-field';
 import InputField from '../components/input-field/input-field';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../services/hooks';
 import { restorePassword } from '../utils/burger-api';
 import Preloader from '../components/preloader/preloader';
 import { TLocataionState } from '../utils/types';
