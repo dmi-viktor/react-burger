@@ -4,21 +4,14 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import CircleImg from '../circle-img/circle-img';
 import { useSelector, useDispatch } from '../../services/hooks';
 
-// @ts-ignore
-import { useLocation, useParams, useRouteMatch } from 'react-router-dom';
-import { TLocataionState } from '../../utils/types';
+import { useParams, useRouteMatch } from 'react-router-dom';
 
 import { TOrder, TIngredient } from '../../utils/types';
 
 import { getOrderHistoryURL } from '../../utils/burger-api';
 import { wsConnect } from '../../services/actions/wsOrderHistoryTypes';
 
-interface IOrderStatusDetails {
-    uri: string;
-    countHidden?: number;
-}
-
-const OrderStatusDetails = ({ data }: { data?: TOrder }) => { //: FC<IOrderStatusDetails>
+const OrderStatusDetails = ({ data }: { data?: TOrder }) => {
     const dispatch = useDispatch();
 
     const orderFeed = useSelector(s => s.orderFeed);

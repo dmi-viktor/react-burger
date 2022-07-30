@@ -7,7 +7,6 @@ import { useSelector } from '../../services/hooks';
 
 import { TIngredient } from '../../utils/types';
 import { Link } from 'react-router-dom';
-// @ts-ignore
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import { TLocataionState } from '../../utils/types';
 

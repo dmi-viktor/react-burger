@@ -204,7 +204,7 @@ export function getUserDataFromServer() {
     };
 }
 
-export function editUserDataOnServer(email: string, password: string, name: string, func: (flag: boolean, message?: string) => void) {
+export function editUserDataOnServer(email: string, password: string, name: string, func: (isSuccess: boolean, message?: string) => void) {
     return function (dispatch: AppDispatch) {
         dispatch({
             type: EDIT_USER_REQUEST

@@ -86,7 +86,7 @@ export default function Profile() {
                 <div className={`pt-5 ${styles.buttonsWrapper}`}>
                     <button className={` pr-5 mr-5 text text_type_main-small ${styles.cancelBtn}`} onClick={resetForm}>Отмена</button>      
                     {
-                        // @ts-ignore //TODO: Не понимаю, что делать с этой строкой? 
+                        // @ts-ignore
                         <Button type="primary" size="small" onClick={editProfile}>Сохранить</Button>
                     }
                 </div>

@@ -14,8 +14,7 @@ type TLocataionStateFrom = TLocataionState & {
 }
 
 const PasswordRecoveryPage: FC = () => {
-    const location = useLocation<TLocataionStateFrom>();
-    // @ts-ignore
+    const location = useLocation<TLocataionStateFrom>();    
     const auth = useSelector(state => state.auth);    
     const history = useHistory();
     const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
