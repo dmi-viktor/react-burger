@@ -3,14 +3,14 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\burger-constructor",
-    "\\src\\components\\category",
-    "\\src\\components\\constructor-element",
-    "\\src\\components\\ingredient",
-    "\\src\\services",
-    "\\src\\services\\actions",
-    "\\src\\services\\reducers"
+    "\\src\\components\\ingredient-value-details",
+    "\\src\\components\\input-field",
+    "\\src\\components\\modal-overlay",
+    "\\src\\components\\preloader",
+    "\\src\\components\\profile",
+    "\\src\\components\\profile-navigation",
+    "\\src\\components\\profile-orders"
   ],
-  "SelectedNode": "\\src\\components\\burger-constructor\\burger-constructor.js",
+  "SelectedNode": "\\src\\utils\\burger-api.js",
   "PreviewInSolutionExplorer": false
 }
