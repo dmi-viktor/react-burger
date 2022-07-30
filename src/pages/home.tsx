@@ -16,7 +16,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 const HomePage: FC = () => {
     return (             
         <>        
-            <span className={`text text_type_main-medium pt-10 pb-6 ${style.title}`}>Соберите бургер</span>
+            <span className={`text text_type_main-large pt-10 pb-6 ${style.title}`}>Соберите бургер</span>
             <div className={style.content}>
                 <DndProvider backend={HTML5Backend}>
                     <BurgerIngredients />

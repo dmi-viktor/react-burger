@@ -4,17 +4,22 @@ import Category from '../category/category';
 import Tabs from '../tabs/tabs';
 
 import { useInView } from 'react-intersection-observer';
- // @ts-ignore
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
+
 import { TIngredient } from '../../utils/types';
 
 export default function BurgerIngredients() {
-    // @ts-ignore
     const { items, itemsRequest, itemsFailed } = useSelector(state => state.ingredients);
 
     const getFilteredIngredients = (category: string) => {
         return items.filter((data: TIngredient) => data.type == category)
     }
+
+    React.useEffect(
+        () => {
+            console.log(items);
+        }
+    );
 
     const [ bunRef, inViewBun ] = useInView({
         threshold: 0.2,

@@ -1,48 +1,26 @@
-import { TIngredient } from './types'
+import {
+    TIngredient,
+    TIngredientsData,
+    TResponseOrder,
+    TPasswordRecovery,
+    TSuccessfulRegistration,
+    TSuccessfulAuthorization,
+    TSuccessfulLogout,
+    TSuccessfulProfile,
+    TSuccessfulTokenRefresh
+} from './types'
 
 const NORMA_API = 'https://norma.nomoreparties.space/api';
+
+export const ORDER_FEED_URL = 'wss://norma.nomoreparties.space/orders/all';
+
+export const getOrderHistoryURL = (): String => {
+    return `wss://norma.nomoreparties.space/orders?token=${getCookie("accessToken")}`;
+}
 
 function checkReponse<T>(response: Response): Promise<T> {
     return response.ok ? response.json() : response.json().then((err) => Promise.reject(err));
 };
-
-/*Types*/
-type TSuccess = { readonly success: boolean };
-
-type TIngredientsData = TSuccess & {
-    readonly data: readonly TIngredient[]
-}
-
-type TResponseOrder = TSuccess & {
-    readonly name: string,
-    readonly order: {
-        readonly number: number
-    }    
-} 
-
-type TPasswordRecovery = TSuccess & {
-    readonly message: string
-};
-
-type TSuccessfulLogout = TPasswordRecovery;
-
-type TSuccessfulTokenRefresh = TSuccess & {
-    readonly accessToken: string,
-    readonly refreshToken: string
-}
-
-type TSuccessfulProfile = TSuccess & {
-    readonly user: {
-        readonly email: string,
-        readonly name: string
-    }
-}
-
-type TSuccessfulRegistration = TSuccessfulProfile & TSuccessfulTokenRefresh;
-
-type TSuccessfulAuthorization = TSuccessfulRegistration;
-
-/*Types*/
 
 // Получить ингредиенты
 export async function getIngredients(): Promise<TIngredientsData> {

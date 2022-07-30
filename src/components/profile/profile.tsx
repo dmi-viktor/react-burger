@@ -1,14 +1,12 @@
 import React from 'react';
 import styles from './profile.module.css';
-// @ts-ignore
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { editUserDataOnServer } from '../../services/actions/auth.js';
+import { editUserDataOnServer } from '../../services/actions/auth';
 
 export default function Profile() {
     const dispatch = useDispatch();
     const [errorMessage, setErrorMessage] = React.useState<string>('');
-    // @ts-ignore
     const auth = useSelector(state => state.auth);
 
     const [nameValue, setNameValue] = React.useState<string>(auth.user.name);
@@ -88,7 +86,7 @@ export default function Profile() {
                 <div className={`pt-5 ${styles.buttonsWrapper}`}>
                     <button className={` pr-5 mr-5 text text_type_main-small ${styles.cancelBtn}`} onClick={resetForm}>Отмена</button>      
                     {
-                        // @ts-ignore //TODO: Не понимаю, что делать с этой строкой? 
+                        // @ts-ignore
                         <Button type="primary" size="small" onClick={editProfile}>Сохранить</Button>
                     }
                 </div>

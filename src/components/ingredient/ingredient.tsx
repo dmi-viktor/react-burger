@@ -4,13 +4,11 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 
 import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from "react-dnd";
-// @ts-ignore
-import { useSelector } from 'react-redux';
-import { TIngredient, TLocataionState } from '../../utils/types';
+import { useSelector } from '../../services/hooks';
+import { TIngredient, TLocataionState, TIngredientUuid } from '../../utils/types';
 
 export default function Ingredient({ ingredientData }: { ingredientData: TIngredient }) {
     const location = useLocation<TLocataionState>();
-    // @ts-ignore
     const { constructorItems } = useSelector(state => state.burgerConstructor);
     const [ ingredientCount, setIngredientCount ] = React.useState<number>(0);
 
@@ -20,7 +18,7 @@ export default function Ingredient({ ingredientData }: { ingredientData: TIngred
     });
 
     React.useEffect(() => {
-        var res = constructorItems
+        var res = (constructorItems as TIngredientUuid[])
             .filter((item: TIngredient) => item._id === ingredientData._id)
             .reduce(
                 (count: number, item: TIngredient) =>

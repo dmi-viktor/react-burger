@@ -2,18 +2,17 @@ import React from 'react';
 import style from './app.module.css';
 
 import { BrowserRouter as Router, Route, Switch, useLocation, useHistory } from 'react-router-dom';
-import { HomePage, LoginPage, RegistrationPage, PasswordRecoveryPage, PasswordRecovery2Page, ProfilePage, IngredientDetailsPage, NotFound404 } from '../../pages/index';
+import { HomePage, LoginPage, RegistrationPage, PasswordRecoveryPage, PasswordRecovery2Page, ProfilePage, IngredientDetailsPage, NotFound404, OrderFeedPage, OrderStatusDetailsPage } from '../../pages/index';
 
 import AppHeader from '../app-header/app-header';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { getIngredientsFromServer } from '../../services/actions/burger-ingredients';
-import { getUserDataFromServer } from '../../services/actions/auth.js';
-// @ts-ignore
-import { useDispatch, useSelector } from 'react-redux';
+import { getUserDataFromServer } from '../../services/actions/auth';
+import { useSelector, useDispatch } from '../../services/hooks';
 import ProtectedRoute from '../protected-route';
 import Preloader from '../preloader/preloader';
-
+import OrderStatusDetails from '../order-status-details/order-status-details';
 import { Location } from 'history';
 
 type TLocataionState = {
@@ -23,8 +22,7 @@ type TLocataionState = {
 export default function App() {
 
     const dispatch = useDispatch();
-    // @ts-ignore
-    const auth = useSelector(state => state.auth);
+    const auth = useSelector(state => state.auth);    
 
     // Инициализируем получение ингредиентов с сервера
     React.useEffect(() => {
@@ -85,6 +83,10 @@ function ModalSwitch() {
                     <PasswordRecovery2Page />
                 </Route>
 
+                <ProtectedRoute path="/profile/orders/:id">
+                    <OrderStatusDetailsPage />
+                </ProtectedRoute>
+
                 <ProtectedRoute path="/profile/orders" exact={true}>
                     <ProfilePage />
                 </ProtectedRoute>
@@ -93,8 +95,16 @@ function ModalSwitch() {
                     <ProfilePage />
                 </ProtectedRoute>
 
-                <Route path="/ingredients/:id">
+                <Route path="/ingredients/:id">s
                     <IngredientDetailsPage />
+                </Route>
+
+                <Route path="/feed/" exact={true}>
+                    <OrderFeedPage />
+                </Route>
+
+                <Route path="/feed/:id">
+                    <OrderStatusDetailsPage />
                 </Route>
 
                 <Route path={`*`}>
@@ -110,6 +120,30 @@ function ModalSwitch() {
                         history.goBack();
                     }}>
                         <IngredientDetails />
+                    </Modal>
+                </Route>
+            }
+
+            {
+                background &&
+                <Route path="/feed/:id">
+                    <Modal onClose={(e) => {                        
+                        e?.stopPropagation();
+                        history.goBack();
+                    }}>
+                        <OrderStatusDetails />
+                    </Modal>
+                </Route>
+            }
+
+            {
+                background &&
+                <Route path="/profile/orders/:id">
+                    <Modal onClose={(e) => {                        
+                        e?.stopPropagation();
+                        history.goBack();
+                    }}>
+                        <OrderStatusDetails />
                     </Modal>
                 </Route>
             }

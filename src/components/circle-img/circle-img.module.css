@@ -1,0 +1,48 @@
+.miniature {
+    color: #313149;
+    display: inline-block;
+    position: relative;
+    z-index: 0;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    border-width: 0;
+    border-style: solid;
+    border-radius: 30px;
+    background-color: #131316;
+}
+
+    .miniature:not(:first-child) {
+        margin-left: -15px;
+    }
+
+    .miniature > img {
+        margin-left: -15px;
+        margin-top: 8px;
+        width: 90px;
+    }
+
+    .miniature:before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        padding: 3px;
+        border-radius: 30px;
+        background: linear-gradient(to right, #7720BD, #5543F1);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+
+.ingredientCount {
+    color: white;
+    position: absolute;
+    top: 15px;
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}

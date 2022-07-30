@@ -5,8 +5,8 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import PasswordField from '../components/password-field/password-field';
 import InputField from '../components/input-field/input-field';
-import { useSelector, useDispatch } from 'react-redux';
-import { registerOnServer } from '../services/actions/auth.js';
+import { useSelector, useDispatch } from '../services/hooks';
+import { registerOnServer } from '../services/actions/auth';
 import { TLocataionState } from '../utils/types';
 
 type TLocataionStateFrom = TLocataionState & {
@@ -19,7 +19,6 @@ const RegistrationPage = () => {
     const dispatch = useDispatch();
     const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
     const [form, setValue] = React.useState<{ email: string, password: string, name: string }>({ email: '', password: '', name: '' });
-    // @ts-ignore
     const auth = useSelector(state => state.auth);
     const history = useHistory();
 
