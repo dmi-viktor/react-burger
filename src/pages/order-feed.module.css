@@ -1,0 +1,45 @@
+.title {
+    text-align: left;
+}
+
+.content {
+    display: flex;
+    height: calc(100% - 140px);
+}
+
+    .content > div {
+        width: 50%;
+    }
+
+.orderFeed {
+    overflow-y: auto;
+}
+
+.kitchenOrderStatuses {
+    display: flex;
+    flex-direction: row;
+}
+
+.readyOrders {
+    flex-grow: 1;
+    width: 50%;
+}
+
+.ordersInProgress {
+    flex-grow: 1;
+    width: 50%;
+}
+
+.orderIds {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.readyOrderId {
+    color: #00CCCC;
+    flex-basis: 50%;
+}
+
+.pendingOrderId {
+    flex-basis: 50%;
+}

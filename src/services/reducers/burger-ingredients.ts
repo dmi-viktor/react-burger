@@ -1,16 +1,24 @@
+import { TIngredient } from '../../utils/types'
 import {
     GET_INGREDIENTS_REQUEST,
     GET_INGREDIENTS_SUCCESS,
-    GET_INGREDIENTS_ERROR
+    GET_INGREDIENTS_ERROR,
+    TGetIngredientsActions
 } from '../actions/burger-ingredients';
 
-const initialState = {
+type TIngredientsState = {
+    items: ReadonlyArray<TIngredient>;
+    itemsRequest: boolean;
+    itemsFailed: boolean;
+}
+
+const initialState: TIngredientsState = {
     items: [],
     itemsRequest: false,
     itemsFailed: false
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: TGetIngredientsActions): TIngredientsState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
@@ -22,7 +30,7 @@ export const ingredientsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 itemsFailed: false,
-                items: action.items.data,
+                items: action.items,
                 itemsRequest: false
             };
         }

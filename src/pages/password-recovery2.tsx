@@ -5,7 +5,7 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, useLocation, Redirect, useHistory } from 'react-router-dom';
 import PasswordField from '../components/password-field/password-field';
 import InputField from '../components/input-field/input-field';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../services/hooks';
 import { saveNewPassword } from '../utils/burger-api';
 import Preloader from '../components/preloader/preloader';
 import { TLocataionState } from '../utils/types';
@@ -17,7 +17,6 @@ type TLocataionStateFrom = TLocataionState & {
 
 const PasswordRecovery2Page: FC = () => {
     const location = useLocation<TLocataionStateFrom>();
-    // @ts-ignore
     const auth = useSelector(state => state.auth);    
 
     const [errorMessage, setErrorMessage] = React.useState<string | null>(null);

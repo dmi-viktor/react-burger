@@ -1,3 +1,4 @@
+import { type } from 'os';
 import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
@@ -14,10 +15,19 @@ import {
     EDIT_USER_REQUEST,
     EDIT_USER_SUCCESS,
 
-    AUTH_ERROR
+    AUTH_ERROR,
+
+    TAuthActions
 } from '../actions/auth';
 
-const initialState = 
+type TAuthState = {
+    isAuth: boolean;
+    user: any,
+    isRequest: boolean,
+    isFailed: boolean
+}
+
+const initialState: TAuthState = 
 {
     isAuth: false,
     user: null,
@@ -25,7 +35,7 @@ const initialState =
     isFailed: false,
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions): TAuthState => {
     switch (action.type) {
         case REGISTER_REQUEST:
         case LOGIN_REQUEST:

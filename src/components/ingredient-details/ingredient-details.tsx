@@ -1,19 +1,17 @@
 import React from 'react';
 import style from './ingredient-details.module.css';
 import IngredientValueDetails from '../ingredient-value-details/ingredient-value-details';
-// @ts-ignore
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { useParams } from 'react-router-dom';
 import { TIngredient } from '../../utils/types';
 
 export default function IngredientDetails() {
-    // @ts-ignore
     const allIngredients = useSelector(state => state.ingredients.items);
-    const [details, setDetails] = React.useState<TIngredient | null>(null);
+    const [details, setDetails] = React.useState<TIngredient | null | undefined>(null);
     const { id } = useParams<{ id: string }>();
 
-    React.useEffect(() => {        
-        let details = allIngredients.find((item: TIngredient) => item._id === id);
+    React.useEffect(() => {
+        let details = (allIngredients as TIngredient[]).find((item: TIngredient) => item._id === id);
         setDetails(details);
     }, [allIngredients]);
 
