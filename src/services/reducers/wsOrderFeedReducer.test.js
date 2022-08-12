@@ -1,4 +1,5 @@
 import { wsReducer, initialState } from './wsOrderFeedReducer.ts';
+import * as types from '../actions/wsOrderFeedTypes';
 
 describe('todos order feed reducer', () => {
 
@@ -34,7 +35,7 @@ const testOrders = {
     test('should handle WS_CONNECTION_SUCCESS', () => {
         expect(
             wsReducer(initialState, {
-                type: 'WS_CONNECTION_SUCCESS' // todo. Уважаемый ревьюер, использую строковое выражение, быть может я не понял и можно было сделать "интереснее"? 
+                type: types.WS_CONNECTION_SUCCESS
             })
         ).toEqual(
             {
@@ -51,7 +52,7 @@ const testOrders = {
                 error: undefined,
                 wsConnected: true
             }, {
-                type: 'WS_CONNECTION_CLOSED'
+                type: types.WS_CONNECTION_CLOSED
             })
         ).toEqual(
             {
@@ -67,7 +68,7 @@ const testOrders = {
                 error: undefined,
                 wsConnected: true
             }, {
-                type: 'WS_CONNECTION_ERROR',
+                type: types.WS_CONNECTION_ERROR,
                 payload: 'ошибка запроса'
             })
         ).toEqual(
@@ -84,7 +85,7 @@ const testOrders = {
                 error: undefined,
                 wsConnected: true
             }, {
-                type: 'WS_GET_MESSAGE',
+                type: types.WS_GET_MESSAGE,
                 payload: testOrders
             })
         ).toEqual(

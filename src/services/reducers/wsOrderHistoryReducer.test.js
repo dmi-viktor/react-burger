@@ -1,4 +1,5 @@
 import { wsOrderHistoryReducer, initialState } from './wsOrderHistoryReducer.ts';
+import * as types from '../actions/wsOrderHistoryTypes';
 
 describe('todos order history reducer', () => {
 
@@ -34,7 +35,7 @@ const testOrders = {
     test('should handle WS_ORDER_HISTORY_CONNECTION_SUCCESS', () => {
         expect(
             wsOrderHistoryReducer(initialState, {
-                type: 'WS_ORDER_HISTORY_CONNECTION_SUCCESS'
+                type: types.WS_ORDER_HISTORY_CONNECTION_SUCCESS
             })
         ).toEqual(
             {
@@ -50,7 +51,7 @@ const testOrders = {
                 error: undefined,
                 wsConnected: true
             }, {
-                type: 'WS_ORDER_HISTORY_CONNECTION_CLOSED'
+                type: types.WS_ORDER_HISTORY_CONNECTION_CLOSED
             })
         ).toEqual(
             {
@@ -66,7 +67,7 @@ const testOrders = {
                 error: undefined,
                 wsConnected: true
             }, {
-                type: 'WS_ORDER_HISTORY_CONNECTION_ERROR',
+                type: types.WS_ORDER_HISTORY_CONNECTION_ERROR,
                 payload: 'ошибка запроса'
             })
         ).toEqual(
@@ -83,7 +84,7 @@ const testOrders = {
                 error: undefined,
                 wsConnected: true
             }, {
-                type: 'WS_ORDER_HISTORY_GET_MESSAGE',
+                type: types.WS_ORDER_HISTORY_GET_MESSAGE,
                 payload: testOrders
             })
         ).toEqual(
