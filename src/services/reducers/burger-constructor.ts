@@ -12,7 +12,7 @@ type TConstructorState = {
     constructorItems: TIngredientUuid[]
 }
 
-const initialState = {
+export const initialState = {
     constructorItems: []
 };
 

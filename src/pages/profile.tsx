@@ -7,16 +7,19 @@ import OrdersHistory from '../components/profile-orders/profile-orders'
 import { useRouteMatch } from 'react-router-dom'
 
 const ProfilePage: FC = () => {
+    const isProfile = !!useRouteMatch({ path: '/profile', exact: true });
+    const isProfileOrders = !!useRouteMatch({ path: '/profile/orders', exact: true });
+
     return (
         <div className={`pt-15 ${styles.profileWrapper}`}>
             <ProfileNavigation />
 
             {
-                !!useRouteMatch({ path: '/profile', exact: true }) &&
+                isProfile &&
                 <Profile />
             }
             {
-                !!useRouteMatch({ path: '/profile/orders', exact: true }) &&
+                isProfileOrders &&
                 <OrdersHistory />
             }
         </div>

@@ -6,6 +6,7 @@ interface ITitleButton {
     content: string;
     children: React.ReactNode;
     target: string;
+    dataCy?: string;
 }
 
 const TitleButton: FC<ITitleButton> = (props) => {
@@ -14,7 +15,7 @@ const TitleButton: FC<ITitleButton> = (props) => {
     return (
         <NavLink className={`pt-4 pb-4 pr-5 pl-5 ${styles.titleButton}`} style={{ opacity: (isActive ? '1' : '0.6') }} to={props.target} >
             {props.children}
-            <span className={`pl-2 ${styles.buttonContent}`}>{props.content}</span>
+            <span className={`pl-2 ${styles.buttonContent}`} data-cy={`${props.dataCy}`}>{props.content}</span>
         </NavLink>
     );
 }

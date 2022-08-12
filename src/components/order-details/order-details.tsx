@@ -11,7 +11,7 @@ export default function OrderDetails() {
             {
                 order && order.orderDetails &&
                 <>
-                    <span className={`text text_type_digits-large pt-20 pb-8 ${style.modalIdOrder}`}>{order.orderDetails.order.number}</span>
+                    <span className={`text text_type_digits-large pt-20 pb-8 ${style.modalIdOrder}`} data-cy="created_order_id">{order.orderDetails.order.number}</span>
                     <div className={`text text_type_main-medium pb-15 ${style.modalIdHint}`}>Идентификатор заказа</div>
                     <div className={`pb-15 ${style.modalImg}`}><img src={modalImg} /></div>
                     <div className={`text text_type_main-default pb-2  ${style.modalStatus}`}>Ваш заказ начали готовить</div>

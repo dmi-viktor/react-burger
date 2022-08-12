@@ -15,7 +15,7 @@ export default function Category({ code, title, list, reference }: ICategory) {
     return (
         <div id={code} className={style.categoryBox} ref={reference}>
             <span className="text text_type_main-medium pt-6">{title}</span>
-            <div className={style.ingredientList}>
+            <div className={style.ingredientList} id={`${code}Ingredients`}>
                 {
                     list.map((data: TIngredient, index: number) => (
                         <Ingredient ingredientData={data} key={data._id} />

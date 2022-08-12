@@ -6,7 +6,7 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 
 type TModal = {
     onClose: (e?: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-    children: React.ReactNode; /// Что я делаю не так? Почему приходится указывать тип явно?
+    children: React.ReactNode; /// пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ? пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ?
 }
 
 const Modal: FunctionComponent<TModal> = ({ onClose, children }) => {
@@ -31,7 +31,7 @@ const Modal: FunctionComponent<TModal> = ({ onClose, children }) => {
         <>
             <ModalOverlay onClose={onClose} />
             <div className={`${style.modal} p-10`}>
-                <button className={style.closeBtn} onClick={onClose}>
+                <button className={style.closeBtn} onClick={onClose} data-cy="modal_close_btn">
                     <CloseIcon type="primary" />
                 </button>
                 {children}

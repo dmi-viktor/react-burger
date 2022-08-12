@@ -1,4 +1,3 @@
-import { type } from 'os';
 import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
@@ -27,7 +26,7 @@ type TAuthState = {
     isFailed: boolean
 }
 
-const initialState: TAuthState = 
+export const initialState: TAuthState = 
 {
     isAuth: false,
     user: null,

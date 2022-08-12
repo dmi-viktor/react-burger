@@ -8,11 +8,13 @@ type TWSState = {
     data?: TOrders;
 };
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
     wsConnected: false    
 }; 
 
 export const wsReducer = createReducer(initialState, (builder) => {
+
+
     builder
         .addCase(wsOpen, (state) => {
             state.error= undefined;
@@ -26,7 +28,7 @@ export const wsReducer = createReducer(initialState, (builder) => {
             state.error = action.payload;
             state.wsConnected = false;
         })
-        .addCase(wsMessage, (state, action) => {
+        .addCase(wsMessage, (state, action) => {            
             state.error= undefined;
             state.data = action.payload;
         })

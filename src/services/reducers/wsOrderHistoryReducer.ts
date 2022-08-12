@@ -8,7 +8,7 @@ type TWSState = {
     data?: TOrders;
 };
 
-const initialState: TWSState = {
+export const initialState: TWSState = {
     wsConnected: false    
 }; 
 

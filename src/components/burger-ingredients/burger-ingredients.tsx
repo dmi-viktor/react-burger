@@ -15,12 +15,6 @@ export default function BurgerIngredients() {
         return items.filter((data: TIngredient) => data.type == category)
     }
 
-    React.useEffect(
-        () => {
-            console.log(items);
-        }
-    );
-
     const [ bunRef, inViewBun ] = useInView({
         threshold: 0.2,
     });
@@ -42,7 +36,7 @@ export default function BurgerIngredients() {
                 !itemsRequest &&
                 !itemsFailed &&
                 <>                
-                    <div className={`custom-scroll ${style.categoryList}`}>
+                    <div className={`custom-scroll ${style.categoryList}`} id="CommonIngredientList">
                         <Category reference={bunRef} title="Булочка" code="bun" list={getFilteredIngredients('bun')} />
                         <Category reference={sauceRef} title="Соусы" code="sauce" list={getFilteredIngredients('sauce')} />
                         <Category reference={mainRef} title="Начинки" code="main" list={getFilteredIngredients('main')} />
