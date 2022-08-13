@@ -27,7 +27,7 @@ export default function AppHeader() {
                     <Logo />
                 </Link>
 
-                <TitleButton content={auth.isAuth ? auth.user.name : "Личный кабинет"} target="/profile">
+                <TitleButton content={auth.isAuth ? auth.user.name : "Личный кабинет"} target="/profile" dataCy="profile">
                     <ProfileIcon type="primary" />
                 </TitleButton>
             </div>

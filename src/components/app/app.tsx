@@ -63,7 +63,7 @@ function ModalSwitch() {
     return (
         <>
             <Switch location={background || location}>
-                <Route path="/" exact={true}>
+                <Route path={["/", "/react-burger/index.html", "/react-burger"]} exact={true}>
                     <HomePage />
                 </Route>
 

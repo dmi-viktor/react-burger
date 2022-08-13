@@ -37,9 +37,7 @@ export default function BurgerConstructor() {
 
     const getUniqId = () => uuidv4();
 
-    const history = useHistory();
-
-    React.useEffect(() => { console.log('constructorItems', constructorItems) }, [constructorItems]);
+    const history = useHistory();    
 
     const addToConstuctor = (item: TIngredient) => {
         if (item.type === 'bun' && selectedBun) {
@@ -153,7 +151,7 @@ export default function BurgerConstructor() {
 
                 {// Верхняя булочка
                     
-                    <div ref={bunDropTarget1}>
+                    <div ref={bunDropTarget1} id="ConstructorTopBun">
                         {
                             selectedBun
                             ?
@@ -172,7 +170,7 @@ export default function BurgerConstructor() {
                     </div>
                 }
 
-                <div ref={fillingDropTarget} className={`custom-scroll mb-4 ${style.ingredientList}`}>
+                <div ref={fillingDropTarget} className={`custom-scroll mb-4 ${style.ingredientList}`} id="ConstructorFilling">
                     {
                         selectedToppings.length == 0 &&
                         <div className={style.dragAndDropHint}>
@@ -221,7 +219,7 @@ export default function BurgerConstructor() {
                 {
                     constructorItems !== undefined &&
 
-                    <div className={`pt-10 ${style.runningTitle}`}>
+                    <div className={`pt-10 ${style.runningTitle}`} data-cy="footer_constructor">
                         <span className="text text_type_digits-medium">{totalSum}</span>
 
                         <div className="pr-2 pl-2">

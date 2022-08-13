@@ -22,14 +22,14 @@ function checkReponse<T>(response: Response): Promise<T> {
     return response.ok ? response.json() : response.json().then((err) => Promise.reject(err));
 };
 
-// Получить ингредиенты
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 export async function getIngredients(): Promise<TIngredientsData> {
     return await fetch(`${NORMA_API}/ingredients`)
         .then((res) => checkReponse<TIngredientsData>(res));
 };
 
-// Создание заказа
-export async function createOrder(data: string[]): Promise<TResponseOrder> {
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+export async function createOrder(data: string[]): Promise<TResponseOrder> {    
     return await fetch(`${NORMA_API}/orders`, {
         method: 'POST',
         headers: {
@@ -40,7 +40,7 @@ export async function createOrder(data: string[]): Promise<TResponseOrder> {
     }).then((res) => checkReponse<TResponseOrder>(res));
 }
 
-// Восстановление пароля. Отправка кода восстановления пароля по указанному адресу.
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
 export async function restorePassword(email: string): Promise<TPasswordRecovery> {
     return await fetch(`${NORMA_API}/password-reset`, {
         method: 'POST',
@@ -51,7 +51,7 @@ export async function restorePassword(email: string): Promise<TPasswordRecovery>
     }).then((res) => checkReponse<TPasswordRecovery>(res));
 }
 
-// Сохранение нового пароля, используя код из письма
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 export async function saveNewPassword(password: string, token: string): Promise<TPasswordRecovery> {
     return await fetch(`${NORMA_API}/password-reset/reset`, {
         method: 'POST',
@@ -62,7 +62,7 @@ export async function saveNewPassword(password: string, token: string): Promise<
     }).then((res) => checkReponse<TPasswordRecovery>(res));
 }
 
-// Регистрация нового пользователя
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 export async function register(email: string, password: string, name: string): Promise<TSuccessfulRegistration> {
     return await fetch(`${NORMA_API}/auth/register`, {
         method: 'POST',
@@ -73,7 +73,7 @@ export async function register(email: string, password: string, name: string): P
     }).then((res) => checkReponse<TSuccessfulRegistration>(res));
 }
 
-// Авторизация зарегистрированного пользователя
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 export async function authorize(email: string, password: string): Promise<TSuccessfulAuthorization> {
     return await fetch(`${NORMA_API}/auth/login`, {
         method: 'POST',
@@ -84,7 +84,7 @@ export async function authorize(email: string, password: string): Promise<TSucce
     }).then((res) => checkReponse<TSuccessfulAuthorization>(res));
 }
 
-// Выход из учетной записи
+// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 export async function logout(): Promise<TSuccessfulLogout> {
     return await fetchWithRefresh<TSuccessfulLogout>(`${NORMA_API}/auth/logout`, {
         method: 'POST',
@@ -95,7 +95,7 @@ export async function logout(): Promise<TSuccessfulLogout> {
     });
 }
 
-// Получить данные о пользователе
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 export async function getUserData(): Promise<TSuccessfulProfile> {
     return await fetchWithRefresh<TSuccessfulProfile>(`${NORMA_API}/auth/user`, {
         method: 'GET',
@@ -106,7 +106,7 @@ export async function getUserData(): Promise<TSuccessfulProfile> {
     });
 }
 
-// Обновить данные о пользователе
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 export async function setUserData(email: string, password: string, name: string): Promise<TSuccessfulProfile> {
     return await fetchWithRefresh<TSuccessfulProfile>(`${NORMA_API}/auth/user`, {
         method: 'PATCH',
@@ -118,7 +118,7 @@ export async function setUserData(email: string, password: string, name: string)
     });
 }
 
-// Обновление токена авторизации
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 export async function refreshToken(): Promise<TSuccessfulTokenRefresh> {
     return fetch(`${NORMA_API}/auth/token`, {
         method: "POST",
@@ -156,7 +156,7 @@ export async function fetchWithRefresh<T>(url: string, options: any): Promise<T>
 
 export function setCookie(name: string, value: string, props: any = {}): void {
     props = {
-        path: '/',  //задаем корневой адрес для cookies
+        path: '/',  //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ cookies
         ...props
     };
 

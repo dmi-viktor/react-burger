@@ -61,11 +61,11 @@ const LoginPage: FC = () => {
 
                 <span className={`text text_type_main-large ${styles.title}`}>Вход</span>
 
-                <div className={`pt-6`}>
+                <div className={`pt-6` } data-cy="email_input_wrapper">
                     <InputField placeholder='E-mail' inputName='email' onChange={onChange} />
                 </div>
 
-                <div className='pt-6 pb-6'>
+                <div className='pt-6 pb-6'data-cy="password_input_wrapper">
                     <PasswordField placeholder='Пароль' onChange={onChange} />
                 </div>
                 {

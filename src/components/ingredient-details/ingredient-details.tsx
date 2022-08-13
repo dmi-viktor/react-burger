@@ -21,18 +21,18 @@ export default function IngredientDetails() {
             details &&
             <div className={style.mainModal}>
                 <div className={`${style.modalTitle} title-details`}>
-                    <span className="text text_type_main-large"> Детали ингредиента </span>
+                    <span className="text text_type_main-large" data-cy="modal_title">Детали ингредиента</span>
                 </div>
                 <div className={style.modalContent}>
                     <img src={details.image_large} className="pb-4" />
-                    <span className="text text_type_main-medium pb-8">
+                    <span className="text text_type_main-medium pb-8" data-cy="ingredient_name">
                         {details.name}
                     </span>
                     <div className={`${style.energyValueList} pb-5`}>
-                        <IngredientValueDetails title="Калории,ккал" energyValue={details.calories} />
-                        <IngredientValueDetails title="Белки,г" energyValue={details.proteins} />
-                        <IngredientValueDetails title="Жиры,г" energyValue={details.fat} />
-                        <IngredientValueDetails title="Углеводы,г" energyValue={details.carbohydrates} />
+                        <IngredientValueDetails title="Калории,ккал" energyValue={details.calories} dataCy="calories" />
+                        <IngredientValueDetails title="Белки,г" energyValue={details.proteins} dataCy="proteins" />
+                        <IngredientValueDetails title="Жиры,г" energyValue={details.fat} dataCy="fat" />
+                        <IngredientValueDetails title="Углеводы,г" energyValue={details.carbohydrates} dataCy="carbohydrates" />
                     </div>
                 </div>
             </div>

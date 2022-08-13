@@ -33,8 +33,8 @@ export default function Ingredient({ ingredientData }: { ingredientData: TIngred
         <>
             <Link ref={dragRef} className={style.productBox + " mt-6 ml-4 mr-4"} to={{
                 pathname: `/ingredients/${ingredientData._id}`,
-                state: { background: location }
-            }}>
+                state: { background: location }                
+            }} data-cy={`ingredient_${ingredientData._id}`} data-type={ingredientData.type == 'bun' ? 'bun' : 'filling'}>
                 <img className="pl-4 pr-4 pb-1" src={ingredientData.image} />
                 <div className={style.priceBox} >
                     <span className="text text_type_digits-default pr-1">{ingredientData.price}</span>

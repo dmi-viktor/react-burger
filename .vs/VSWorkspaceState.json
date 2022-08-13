@@ -3,14 +3,13 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\ingredient-value-details",
-    "\\src\\components\\input-field",
-    "\\src\\components\\modal-overlay",
-    "\\src\\components\\preloader",
-    "\\src\\components\\profile",
-    "\\src\\components\\profile-navigation",
-    "\\src\\components\\profile-orders"
+    "\\src\\components\\app-header",
+    "\\src\\components\\order-row",
+    "\\src\\pages",
+    "\\src\\services",
+    "\\src\\services\\actions",
+    "\\src\\services\\middleware",
+    "\\src\\utils"
   ],
-  "SelectedNode": "\\src\\utils\\burger-api.js",
   "PreviewInSolutionExplorer": false
 }
